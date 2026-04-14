@@ -78,6 +78,16 @@ h2 { font-size: 18px; }
     font-weight: 600;
     margin-top: 10px;
 }
+    
+.input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  box-sizing: border-box;
+}
 
     img {
     width: 100%;
@@ -193,21 +203,20 @@ h2 { font-size: 18px; }
 <div class="card">
 <h2>📌 ШАГ 3. Отправить отчет оператору</h2>
 
-<div class="step">1. Gmail (который привязали)</div>
-<div class="step">2. ФИО (на английском)</div>
-<div class="step">3. Название устройства:</div>
+<div class="step">Введите данные:</div>
 
-<div class="code-box">
-<span id="login">ivanov-i-iphone-01</span>
-<button class="copy-btn" onclick="copyText('login')">Копировать</button>
-</div>
+<input class="input" placeholder="Gmail" id="email">
 
-<div class="step">4. IP-адрес выданный Tailscale</div>
-<div class="step">5. После получения тестового доступа, Подписаться на бота в Телеграм:</div>
+<input class="input" placeholder="ФИО (ivanov ivan)" id="name" oninput="generateDeviceName()">
 
-<div class="code-box">
-<span id="bot">@triangels_access_bot</span>
-<button class="copy-btn" onclick="copyText('bot')">Копировать</button>
+<input class="input" placeholder="Устройство" id="device" readonly>
+
+<div class="step">Подписаться на Telegram после одобрения:</div>
+
+<div class="code">@triangels_access_bot</div>
+
+<button class="button" onclick="copyReport()">📋 Скопировать отчет</button>
+
 </div>
 
 </div>
@@ -215,9 +224,49 @@ h2 { font-size: 18px; }
 </div>
 
 <script>
-function copyText(id) {
-    const text = document.getElementById(id).innerText;
-    navigator.clipboard.writeText(text);
+function generateDeviceName() {
+  const name = document.getElementById("name").value.toLowerCase().trim();
+
+  if (!name) return;
+
+  const parts = name.split(" ");
+  let lastName = parts[0] || "user";
+  let firstLetter = parts[1] ? parts[1][0] : "x";
+
+  const device = `${lastName}-${firstLetter}-iphone-01`;
+
+  document.getElementById("device").value = device;
+}
+
+function validateEmail(email) {
+  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return re.test(email);
+}
+
+function copyReport() {
+  const email = document.getElementById("email").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const device = document.getElementById("device").value.trim();
+
+  if (!email || !name || !device) {
+    alert("Заполните все поля");
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    alert("Введите корректный Gmail");
+    return;
+  }
+
+  const text = 
+`Gmail: ${email}
+ФИО: ${name}
+Устройство: ${device}
+Telegram: @triangels_access_bot`;
+
+  navigator.clipboard.writeText(text);
+
+  alert("Скопировано! Отправьте оператору");
 }
 </script>
 
