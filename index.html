@@ -213,11 +213,14 @@ h2 { font-size: 18px; }
 
 <input class="input" placeholder="Устройство" id="device" readonly>
 
+<button class="button" onclick="copyReport()">📋 Скопировать отчет</button>
+
 <div class="step">Обязательно!!! Подписаться на Telegram-бота после одобрения оператора:</div>
 
-<div class="code">@triangels_access_bot</div>
-
-<button class="button" onclick="copyReport()">📋 Скопировать отчет</button>
+<div class="code-box">
+<span id="server">@triangels_access_bot</span>
+<button class="copy-btn" onclick="copyText('server')">Копировать</button>
+</div>
 
 </div>
 
