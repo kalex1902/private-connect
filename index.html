@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Tailscale</title>
+<title>Tailscale Setup</title>
 
 <style>
 body {
@@ -30,18 +29,12 @@ body {
 h1 { font-size: 22px; }
 h2 { font-size: 18px; }
 
-.badge {
-    background: #eef2ff;
-    padding: 10px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
-
 .warning {
     background: #fff3cd;
     padding: 10px;
     border-radius: 10px;
     font-size: 14px;
+    margin-top: 10px;
 }
 
 .step { margin: 6px 0; }
@@ -55,6 +48,7 @@ h2 { font-size: 18px; }
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 8px;
 }
 
 .copy-btn {
@@ -85,12 +79,7 @@ h2 { font-size: 18px; }
 <div class="container">
 
 <div class="card">
-<h1>📱 Установка Tailscale</h1>
-
-<div class="badge">
-⏱ 3–5 минут<br>
-📶 Нужен интернет
-</div>
+<h1>📱 Установка Tailscale (iPhone)</h1>
 
 <div class="warning">
 ❗ Делайте строго по шагам. После входа ждите одобрения.
@@ -103,19 +92,44 @@ h2 { font-size: 18px; }
 </div>
 
 <div class="card">
-<h2>📌 ШАГ 1. Скачать</h2>
+<h2>📌 ШАГ 1. Скачать и установить</h2>
 
 <div class="step">1. Откройте App Store</div>
 <div class="step">2. Найдите Tailscale</div>
-<div class="step">3. Установите</div>
+<div class="step">3. Установите приложение</div>
 
 <div class="warning">
-❗ Если не находится — смените регион App Store:
-<br><br>
-Страна: United States<br>
-Город: Anchorage<br>
-Индекс: 99501<br>
-Оплата: None
+❗ Если не получается скачать — смените регион App Store:
+</div>
+
+<div class="code-box">
+<span id="country">United States</span>
+<button class="copy-btn" onclick="copyText('country')">Копировать</button>
+</div>
+
+<div class="code-box">
+<span id="address">50 W 7th Ave</span>
+<button class="copy-btn" onclick="copyText('address')">Копировать</button>
+</div>
+
+<div class="code-box">
+<span id="city">Anchorage</span>
+<button class="copy-btn" onclick="copyText('city')">Копировать</button>
+</div>
+
+<div class="code-box">
+<span id="state">Alaska</span>
+<button class="copy-btn" onclick="copyText('state')">Копировать</button>
+</div>
+
+<div class="code-box">
+<span id="zip">99501</span>
+<button class="copy-btn" onclick="copyText('zip')">Копировать</button>
+</div>
+
+<div class="code-box">
+<span id="phone">9073245978</span>
+<button class="copy-btn" onclick="copyText('phone')">Копировать</button>
 </div>
 
 </div>
@@ -124,12 +138,11 @@ h2 { font-size: 18px; }
 <h2>📌 ШАГ 2. Подключение</h2>
 
 <div class="step">1. Откройте Tailscale</div>
-<div class="step">2. Нажмите 👤</div>
+<div class="step">2. Нажмите 👤 (вверху справа)</div>
 <div class="step">3. Log in</div>
+<div class="step">4. ⋯ → Use a custom coordination server</div>
 
-<div class="step">4. ⋯ → Custom server</div>
-
-<div class="step">5. Вставьте:</div>
+<div class="step">5. Вставьте сервер:</div>
 
 <div class="code-box">
 <span id="server">https://89.125.59.191.nip.io</span>
@@ -146,12 +159,12 @@ h2 { font-size: 18px; }
 </div>
 
 <div class="card">
-<h2>📌 ШАГ 3. Отчет</h2>
+<h2>📌 ШАГ 3. Отправить отчет</h2>
 
 <div class="step">1. Gmail</div>
 <div class="step">2. ФИО</div>
 
-<div class="step">3. Логин:</div>
+<div class="step">3. Логин устройства:</div>
 
 <div class="code-box">
 <span id="login">ivanov-i-phone-01</span>
@@ -160,7 +173,7 @@ h2 { font-size: 18px; }
 
 <div class="step">4. IP-адрес</div>
 
-<div class="step">5. Бот:</div>
+<div class="step">5. Подписаться на бота:</div>
 
 <div class="code-box">
 <span id="bot">@triangels_access_bot</span>
@@ -175,7 +188,6 @@ h2 { font-size: 18px; }
 function copyText(id) {
     const text = document.getElementById(id).innerText;
     navigator.clipboard.writeText(text);
-    alert("Скопировано");
 }
 </script>
 
