@@ -9,93 +9,111 @@
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: #f5f6fa;
+    background: #f2f2f7;
 }
 
 .container {
-    max-width: 540px;
+    max-width: 420px;
     margin: auto;
     padding: 16px;
 }
 
 .card {
     background: #fff;
-    border-radius: 16px;
-    padding: 16px;
+    border-radius: 20px;
+    padding: 18px;
     margin-bottom: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    transition: 0.2s;
 }
 
-h1 { font-size: 22px; }
-h2 { font-size: 18px; }
+.card:active {
+    transform: scale(0.99);
+}
+
+h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
 
 .warning {
-    background: #fff3cd;
-    padding: 10px;
-    border-radius: 10px;
+    background: #fff4d6;
+    padding: 12px;
+    border-radius: 12px;
     font-size: 14px;
     margin-top: 10px;
 }
 
-.step { margin: 6px 0; }
+.step {
+    margin: 8px 0;
+    font-size: 15px;
+}
 
 .code-box {
-   background: #f1f3f6;
-  color: #111;
-  padding: 10px 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 6px 0;
-  border: 1px solid #e0e3e8;
+    background: #f5f6fa;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    border: 1px solid #e5e7eb;
 }
 
 .copy-btn {
-    background: #4f7cff;
-  border: none;
-  color: white;
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  cursor: pointer;
+    background: #007aff;
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
 }
 
 .copy-btn:active {
-  opacity: 0.7;
-  transform: scale(0.95);
+    transform: scale(0.95);
+    opacity: 0.7;
 }
 
 .button {
     display: block;
     text-align: center;
-    background: #4f7cff;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
     color: #fff;
     padding: 14px;
-    border-radius: 12px;
+    border-radius: 14px;
     text-decoration: none;
     font-weight: 600;
-    margin-top: 10px;
-}
-    
-.input {
-  width: 100%;
-  padding: 12px;
-  margin-top: 8px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-  box-sizing: border-box;
+    margin-top: 12px;
 }
 
-    img {
+.button:active {
+    transform: scale(0.97);
+}
+
+.input {
     width: 100%;
-    max-width: 260px;
+    padding: 14px;
+    margin-top: 10px;
+    border-radius: 14px;
+    border: 1px solid #e5e5ea;
+    font-size: 15px;
+    background: #f9f9fb;
+}
+
+img {
+    width: 100%;
+    max-width: 220px;
     display: block;
-    margin: 12px auto;
+    margin: 14px auto;
     border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 </style>
 </head>
@@ -218,8 +236,8 @@ h2 { font-size: 18px; }
 <div class="step">Обязательно!!! Подписаться на Telegram-бота после одобрения оператора:</div>
 
 <div class="code-box">
-<span id="server">@triangels_access_bot</span>
-<button class="copy-btn" onclick="copyText('server')">Копировать</button>
+<span id="bot">@triangels_access_bot</span>
+<button class="copy-btn" onclick="copyText('bot')">Копировать</button>
 </div>
 
 </div>
