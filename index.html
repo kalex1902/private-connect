@@ -115,12 +115,91 @@ img {
     border-radius: 16px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
+
+.button:hover {
+  opacity: 0.9;
+}
+
+.input:focus {
+  outline: none;
+  border: 1px solid #4f7cff;
+  box-shadow: 0 0 0 2px rgba(79,124,255,0.15);
+}
+
+/* Плавность всего интерфейса */
+* {
+  transition: all 0.2s ease;
+}
+
+/* Кнопка hover */
+.button:hover {
+  opacity: 0.9;
+}
+
+/* Кнопка при нажатии */
+.button:active {
+  transform: scale(0.96);
+}
+
+/* Красивый фокус на input */
+.input:focus {
+  outline: none;
+  border: 1px solid #4f7cff;
+  box-shadow: 0 0 0 2px rgba(79,124,255,0.15);
+}
+
+/* Анимация появления карточек */
+.card {
+  animation: fadeIn 0.4s ease;
+}
+
+/* Анимация */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Улучшенная кнопка (градиент) */
+.button {
+  background: linear-gradient(135deg, #4f7cff, #6fa3ff);
+}
+
+/* Плавный скролл */
+html {
+  scroll-behavior: smooth;
+}
+
+.progress {
+  height: 6px;
+  background: #e0e3e8;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 33%;
+  background: linear-gradient(135deg, #4f7cff, #6fa3ff);
+  transition: width 0.3s ease;
+}
+    
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
+<div class="progress">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
 
 <div class="card">
 <h1>📱 Установка Tailscale (iPhone/iPad)</h1>
@@ -133,14 +212,14 @@ img {
 
 </div>
 
-<div class="card">
+<div class="card" id="step1">
 <h2>📌 ШАГ 1. Скачать и установить</h2>
 
 <div class="step">1. Нажмите кнопку "Скачать Tailscale"</div>
 
 <div class="step">2. Если приложение открылось в App Store — установите его</div>
 
-<a class="button" href="https://apps.apple.com/us/app/tailscale/id1475387142">
+<a class="button" href="https://apps.apple.com/us/app/tailscale/id1475387142" onclick="goToStep(2)">
 📲 Скачать Tailscale
 </a>
 
@@ -193,7 +272,7 @@ img {
 
 <div class="step">6. Выходим в Appstore и скачиваем Tailscale. Соглашайтесь со всем и разрешайте все, что запросит при установке. Иначе потом может работать некорректо!</div>
     
-<div class="card">
+<div class="card" id="step2">
 <h2>📌 ШАГ 2. Подключение к mesh-сети</h2>
 
 <div class="step">1. Откройте Tailscale</div>
@@ -220,8 +299,8 @@ img {
 
 </div>
 
-<div class="card">
-<h2>📌 ШАГ 3. Отправить отчет оператору</h2>
+<div class="card" id="step3">
+<h2>📌 ШАГ 3. Получить доступ</h2>
 
 <div class="step">Введите данные:</div>
 
@@ -233,12 +312,20 @@ img {
 
 <button class="button" onclick="copyReport()">📋 Скопировать отчет</button>
 
-<div class="step">Обязательно!!! Подписаться на Telegram-бота после одобрения оператора:</div>
-
-<div class="code-box">
-<span id="bot">@triangels_access_bot</span>
-<button class="copy-btn" onclick="copyText('bot')">Копировать</button>
+<div class="warning">
+📩 Отправьте этот отчет оператору!!!
 </div>
+
+<div class="step">
+📩 Обязательно!!! Подписаться на Telegram-бота после одобрения оператора:
+<br>1. Нажмите кнопку ниже
+<br>2. В Telegram нажмите <b>START</b>
+<br>3. Отправьте свой Gmail
+</div>
+
+<a class="button" href="https://t.me/triangels_access_bot" target="_blank">
+🚀 Открыть Telegram-бота
+</a>
 
 </div>
 
@@ -266,6 +353,12 @@ function validateEmail(email) {
   return re.test(email);
 }
 
+function goToStep(step) {
+  document.getElementById("step" + step).scrollIntoView({
+    behavior: "smooth"
+  });
+}
+    
 function copyReport() {
   const email = document.getElementById("email").value.trim();
   const name = document.getElementById("name").value.trim();
