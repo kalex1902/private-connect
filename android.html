@@ -24,6 +24,7 @@ body {
     padding: 18px;
     margin-bottom: 16px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    animation: fadeIn 0.4s ease;
 }
 
 h1 { font-size: 22px; }
@@ -34,6 +35,7 @@ h2 { font-size: 18px; }
     padding: 12px;
     border-radius: 12px;
     font-size: 14px;
+    margin-top: 10px;
 }
 
 .step {
@@ -51,6 +53,71 @@ h2 { font-size: 18px; }
     text-decoration: none;
     font-weight: 600;
     margin-top: 12px;
+    transition: 0.2s;
+}
+
+.button:active {
+    transform: scale(0.96);
+}
+
+.code-box {
+    background: #f5f6fa;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0;
+    border: 1px solid #e5e7eb;
+}
+
+.copy-btn {
+    background: #007aff;
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.input {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border-radius: 14px;
+    border: 1px solid #e5e5ea;
+    font-size: 15px;
+    background: #f9f9fb;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+    border: 1px solid #4f7cff;
+    box-shadow: 0 0 0 2px rgba(79,124,255,0.15);
+}
+
+img {
+    width: 100%;
+    max-width: 220px;
+    display: block;
+    margin: 14px auto;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+/* Анимация */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 </style>
 </head>
@@ -67,6 +134,7 @@ h2 { font-size: 18px; }
 </div>
 </div>
 
+<!-- ШАГ 1 -->
 <div class="card">
 <h2>📌 ШАГ 1. Скачать и установить</h2>
 
@@ -78,29 +146,33 @@ h2 { font-size: 18px; }
 📲 Скачать Tailscale (Android)
 </a>
 
-<div class="step">4. Дождитесь этого</div>
-<img src="IMG_5981.jpg">
-    
+<div class="warning">
+📌 Если не устанавливается:
+<br>— Разрешите установку из неизвестных источников
+<br>— Подтвердите установку APK
 </div>
 
+</div>
+
+<!-- ШАГ 2 -->
 <div class="card">
 <h2>📌 ШАГ 2. Подключение</h2>
 
-<div class="step">Далее следуйте инструкции по шагам ниже 👇</div>
+<div class="step">Следуйте инструкции 👇</div>
 
-<div class="step">1. Нажмите ⚙️ (в правом верхнем углу)</div>
+<div class="step">1. Нажмите ⚙️</div>
 <img src="IMG_5981.jpg">
 
-<div class="step">2. Перейдите в Accounts</div>
+<div class="step">2. Accounts</div>
 <img src="IMG_5982.jpg">
 
-<div class="step">3. Нажмите ⋮ (три точки в правом верхнем углу)</div>
+<div class="step">3. ⋮ (три точки)</div>
 <img src="IMG_5984.jpg">
 
-<div class="step">4. Выберите "Use a custom coordination server"</div>
+<div class="step">4. Use a custom coordination server</div>
 <img src="IMG_5986.jpg">
 
-<div class="step">5. Вставьте сервер и нажмите Add account</div>
+<div class="step">5. Вставьте сервер</div>
 
 <div class="code-box">
 <span id="server">https://89.125.59.191.nip.io</span>
@@ -109,22 +181,109 @@ h2 { font-size: 18px; }
 
 <img src="IMG_5989.jpg">
 
-<div class="step">6. Войдите через свой Google-аккаунт</div>
-
-<div class="step">7. Убедитесь, что появилось сообщение:</div>
-<div class="warning">
-✅ Sign in successfully (зеленым цветом)
-</div>
-
-<div class="step">8. Дождитесь одобрения оператора</div>
+<div class="step">6. Войти через Google</div>
 
 <div class="warning">
-⏳ Без одобрения доступ работать не будет
+✅ Должно быть: Sign in successfully
+</div>
+
+<div class="warning">
+⏳ Ждите одобрения оператора
 </div>
 
 </div>
 
+<!-- ВАЖНО -->
+<div class="card">
+<h2>📌 Важно</h2>
+
+<div class="step">1. Нажмите 👤</div>
+<div class="step">2. App split tunneling</div>
+<div class="step">3. Включите нужные приложения</div>
+
+<div class="warning">
+⚠️ Иначе приложения могут не работать
 </div>
+
+</div>
+
+<!-- ШАГ 3 -->
+<div class="card">
+<h2>📌 ШАГ 3. Получить доступ</h2>
+
+<div class="step">Введите данные:</div>
+
+<input class="input" placeholder="Gmail" id="email">
+<input class="input" placeholder="ФИО (ivanov ivan)" id="name" oninput="generateDeviceName()">
+<input class="input" placeholder="Устройство" id="device" readonly>
+
+<button class="button" onclick="copyReport(event)">📋 Скопировать отчет</button>
+
+<div class="warning">
+📩 Отправьте оператору
+</div>
+
+<div class="step">
+📩 После одобрения:
+<br>1. Открыть Telegram
+<br>2. Нажать START
+<br>3. Отправить Gmail
+</div>
+
+<a class="button" href="https://t.me/triangels_access_bot" target="_blank">
+🚀 Открыть Telegram-бота
+</a>
+
+</div>
+
+</div>
+
+<script>
+function copyText(id) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text);
+  alert("Скопировано!");
+}
+
+function generateDeviceName() {
+  const name = document.getElementById("name").value.toLowerCase().trim();
+
+  if (!name) return;
+
+  const parts = name.split(" ");
+  let lastName = parts[0] || "user";
+  let firstLetter = parts[1] ? parts[1][0] : "x";
+
+  const device = `${lastName}-${firstLetter}-android-01`;
+
+  document.getElementById("device").value = device;
+}
+
+function copyReport(event) {
+  const email = document.getElementById("email").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const device = document.getElementById("device").value.trim();
+
+  if (!email || !name || !device) {
+    alert("Заполните все поля");
+    return;
+  }
+
+  const text = 
+`Gmail: ${email}
+ФИО: ${name}
+Устройство: ${device}`;
+
+  navigator.clipboard.writeText(text);
+
+  const btn = event.target;
+  btn.innerText = "✅ Скопировано";
+
+  setTimeout(() => {
+    btn.innerText = "📋 Скопировать отчет";
+  }, 2000);
+}
+</script>
 
 </body>
 </html>
