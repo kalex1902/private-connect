@@ -24,11 +24,6 @@ body {
     padding: 18px;
     margin-bottom: 16px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-    transition: 0.2s;
-}
-
-.card:active {
-    transform: scale(0.99);
 }
 
 h1 {
@@ -73,7 +68,6 @@ h2 {
     padding: 6px 10px;
     border-radius: 8px;
     font-size: 12px;
-    cursor: pointer;
 }
 
 .copy-btn:active {
@@ -84,7 +78,7 @@ h2 {
 .button {
     display: block;
     text-align: center;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    background: linear-gradient(135deg, #4f7cff, #6fa3ff);
     color: #fff;
     padding: 14px;
     border-radius: 14px;
@@ -107,6 +101,12 @@ h2 {
     background: #f9f9fb;
 }
 
+.input:focus {
+  outline: none;
+  border: 1px solid #4f7cff;
+  box-shadow: 0 0 0 2px rgba(79,124,255,0.15);
+}
+
 img {
     width: 100%;
     max-width: 220px;
@@ -115,91 +115,12 @@ img {
     border-radius: 16px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
-
-.button:hover {
-  opacity: 0.9;
-}
-
-.input:focus {
-  outline: none;
-  border: 1px solid #4f7cff;
-  box-shadow: 0 0 0 2px rgba(79,124,255,0.15);
-}
-
-/* Плавность всего интерфейса */
-* {
-  transition: all 0.2s ease;
-}
-
-/* Кнопка hover */
-.button:hover {
-  opacity: 0.9;
-}
-
-/* Кнопка при нажатии */
-.button:active {
-  transform: scale(0.96);
-}
-
-/* Красивый фокус на input */
-.input:focus {
-  outline: none;
-  border: 1px solid #4f7cff;
-  box-shadow: 0 0 0 2px rgba(79,124,255,0.15);
-}
-
-/* Анимация появления карточек */
-.card {
-  animation: fadeIn 0.4s ease;
-}
-
-/* Анимация */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Улучшенная кнопка (градиент) */
-.button {
-  background: linear-gradient(135deg, #4f7cff, #6fa3ff);
-}
-
-/* Плавный скролл */
-html {
-  scroll-behavior: smooth;
-}
-
-.progress {
-  height: 6px;
-  background: #e0e3e8;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 16px;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 33%;
-  background: linear-gradient(135deg, #4f7cff, #6fa3ff);
-  transition: width 0.3s ease;
-}
-    
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
-<div class="progress">
-  <div class="progress-bar" id="progressBar"></div>
-</div>
 
 <div class="card">
 <h1>📱 Установка Tailscale (iPhone/iPad)</h1>
@@ -212,40 +133,36 @@ html {
 
 </div>
 
-<div class="card" id="step1">
+<div class="card">
 <h2>📌 ШАГ 1. Скачать и установить</h2>
 
 <div class="step">1. Нажмите кнопку "Скачать Tailscale"</div>
 
 <div class="step">2. Если приложение открылось в App Store — установите его</div>
 
-<a class="button" href="https://apps.apple.com/us/app/tailscale/id1475387142" onclick="goToStep(2)">
+<a class="button" href="https://apps.apple.com/us/app/tailscale/id1475387142">
 📲 Скачать Tailscale
 </a>
 
 <div class="step">3. Если НЕ открывается или не скачивается — выполните шаги ниже</div>
 
 <div class="warning">
-❗ Если не получается скачать — смените регион App Store! Все условия Принять и Продолжать на любом шаге!
+❗ Если не получается скачать — смените регион App Store! Все условия Принять и Продолжать!
 </div>
 
-<div class="step">1. Откройте App Store и нажмите на свой аккаунт в правом верхнем углу</div>
-
+<div class="step">1. Откройте App Store и нажмите на аккаунт</div>
 <img src="IMG_5966.jpg">
 
-<div class="step">2. Нажмите на свой профиль</div>
-
+<div class="step">2. Перейдите в профиль</div>
 <img src="IMG_5967.jpg">
 
 <div class="step">3. Зайдите в "Страна/регион"</div>
-
 <img src="IMG_5969.jpg">
 
 <div class="step">4. Установите регион:</div>
-
 <img src="IMG_5970.PNG">
 
-<div class="step">5. Заполняем как на скриншотах! Чтобы не заполнять вручную, нажмите ниже кнопку "Копировать"</div>
+<div class="step">5. Заполните данные (можно копировать):</div>
 
 <img src="IMG_5974.jpg">
 <img src="IMG_5975.jpg">
@@ -270,56 +187,60 @@ html {
 <button class="copy-btn" onclick="copyText('phone')">Копировать</button>
 </div>
 
-<div class="step">6. Выходим в Appstore и скачиваем Tailscale. Соглашайтесь со всем и разрешайте все, что запросит при установке. Иначе потом может работать некорректо!</div>
-    
-<div class="card" id="step2">
-<h2>📌 ШАГ 2. Подключение к mesh-сети</h2>
+</div>
+
+<div class="card">
+<h2>📌 ШАГ 2. Подключение</h2>
 
 <div class="step">1. Откройте Tailscale</div>
-<div class="step">2. Нажмите 👤 (вверху справа)</div>
+<div class="step">2. Нажмите 👤</div>
 <img src="IMG_5981.jpg">
+
 <div class="step">3. Log in</div>
 <img src="IMG_5982.jpg">
-<div class="step">4. Жмем три точки (в правом верхнем углу) </div>
+
+<div class="step">4. Три точки (⋮)</div>
 <img src="IMG_5984.jpg">
+
 <div class="step">5. Use a custom coordination server</div>
 <img src="IMG_5986.jpg">
-<div class="step">6. Вставьте адрес сервера скопировав ниже и нажмите Log in:</div>
+
+<div class="step">6. Вставьте сервер:</div>
 <img src="IMG_5989.jpg">
-    
+
 <div class="code-box">
 <span id="server">https://89.125.59.191.nip.io</span>
 <button class="copy-btn" onclick="copyText('server')">Копировать</button>
 </div>
 
-<div class="step">7. Ждем когда iPhone предложит кнопку Продолжить и жмем на нее</div>
+<div class="step">7. Нажмите Продолжить</div>
 <img src="IMG_5990.jpg">
-<div class="step">8. Войти через свой личный Google-аккаунт (в дальнейшем он будет использоваться для других ваших устройств)</div>
-<div class="step">9. Надо добиться увидеть текст зеленым цветом: Sign in successfully</div>
+
+<div class="step">8. Войти через Google</div>
+
+<div class="step">9. Должно быть: <b>Sign in successfully</b></div>
 
 </div>
 
-<div class="card" id="step3">
+<div class="card">
 <h2>📌 ШАГ 3. Получить доступ</h2>
 
 <div class="step">Введите данные:</div>
 
 <input class="input" placeholder="Gmail" id="email">
-
 <input class="input" placeholder="ФИО (ivanov ivan)" id="name" oninput="generateDeviceName()">
-
 <input class="input" placeholder="Устройство" id="device" readonly>
 
 <button class="button" onclick="copyReport(event)">📋 Скопировать отчет</button>
 
 <div class="warning">
-📩 Отправьте этот отчет оператору!!!
+📩 Отправьте этот отчет оператору
 </div>
 
 <div class="step">
-📩 Обязательно!!! Подписаться на Telegram-бота после одобрения оператора:
-<br>1. Нажмите кнопку ниже
-<br>2. В Telegram нажмите <b>START</b>
+После этого:
+<br>1. Откройте Telegram
+<br>2. Нажмите START
 <br>3. Отправьте свой Gmail
 </div>
 
@@ -331,9 +252,12 @@ html {
 
 </div>
 
-</div>
-
 <script>
+function copyText(id) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text);
+}
+
 function generateDeviceName() {
   const name = document.getElementById("name").value.toLowerCase().trim();
 
@@ -343,22 +267,13 @@ function generateDeviceName() {
   let lastName = parts[0] || "user";
   let firstLetter = parts[1] ? parts[1][0] : "x";
 
-  const device = `${lastName}-${firstLetter}-iphone-01`;
-
-  document.getElementById("device").value = device;
+  document.getElementById("device").value = `${lastName}-${firstLetter}-iphone-01`;
 }
 
 function validateEmail(email) {
-  const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return re.test(email);
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-function goToStep(step) {
-  document.getElementById("step" + step).scrollIntoView({
-    behavior: "smooth"
-  });
-}
-    
 function copyReport(event) {
   const email = document.getElementById("email").value.trim();
   const name = document.getElementById("name").value.trim();
@@ -381,18 +296,12 @@ function copyReport(event) {
 
   navigator.clipboard.writeText(text);
 
-  // UX эффект кнопки
   const btn = event.target;
   btn.innerText = "✅ Скопировано";
-  
+
   setTimeout(() => {
     btn.innerText = "📋 Скопировать отчет";
   }, 2000);
-
-  // 🔥 ВАУ: автоскролл к Telegram
-  document.getElementById("telegramBlock").scrollIntoView({
-    behavior: "smooth"
-  });
 }
 </script>
 
