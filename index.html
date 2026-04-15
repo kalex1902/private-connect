@@ -310,7 +310,7 @@ html {
 
 <input class="input" placeholder="Устройство" id="device" readonly>
 
-<button class="button" onclick="copyReport()">📋 Скопировать отчет</button>
+<button class="button" onclick="copyReport(event)">📋 Скопировать отчет</button>
 
 <div class="warning">
 📩 Отправьте этот отчет оператору!!!
@@ -359,7 +359,7 @@ function goToStep(step) {
   });
 }
     
-function copyReport() {
+function copyReport(event) {
   const email = document.getElementById("email").value.trim();
   const name = document.getElementById("name").value.trim();
   const device = document.getElementById("device").value.trim();
@@ -377,12 +377,22 @@ function copyReport() {
   const text = 
 `Gmail: ${email}
 ФИО: ${name}
-Устройство: ${device}
-Telegram: @triangels_access_bot`;
+Устройство: ${device}`;
 
   navigator.clipboard.writeText(text);
 
-  alert("Скопировано! Отправьте оператору");
+  // UX эффект кнопки
+  const btn = event.target;
+  btn.innerText = "✅ Скопировано";
+  
+  setTimeout(() => {
+    btn.innerText = "📋 Скопировать отчет";
+  }, 2000);
+
+  // 🔥 ВАУ: автоскролл к Telegram
+  document.getElementById("telegramBlock").scrollIntoView({
+    behavior: "smooth"
+  });
 }
 </script>
 
