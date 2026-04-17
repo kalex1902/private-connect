@@ -116,6 +116,40 @@ img {
     border-radius: 16px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
+
+.code-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f5f6fa;
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin: 8px 0;
+  border: 1px solid #e5e7eb;
+}
+
+.code-label {
+  font-size: 13px;
+  color: #6b7280;
+  min-width: 90px;
+}
+
+.code-value {
+  font-size: 14px;
+  flex: 1;
+  margin: 0 10px;
+}
+
+.copy-btn {
+  background: #007aff;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+    
 </style>
 </head>
 
@@ -168,33 +202,43 @@ img {
 <img src="IMG_5974.jpg">
 <img src="IMG_5975.jpg">
 
-<div class="code-box">
-<span id="address">50 W 7th Ave</span>
-<button class="copy-btn" onclick="copyText('address')">Копировать</button>
+
+    
+<div class="code-row">
+  <div class="code-label">Адрес</div>
+  <div class="code-value" id="address">50 W 7th Ave</div>
+  <button class="copy-btn" onclick="copyText('address')">Копировать</button>
 </div>
 
-<div class="step">(Пусто)</div>
-    
-<div class="code-box">
-<span id="city">Anchorage</span>
-<button class="copy-btn" onclick="copyText('city')">Копировать</button>
+<div class="code-row">
+  <div class="code-label">Адрес 2</div>
+  <div class="code-value">(пусто)</div>
+</div>
+
+<div class="code-row">
+  <div class="code-label">Город</div>
+  <div class="code-value" id="city">Anchorage</div>
+  <button class="copy-btn" onclick="copyText('city')">Копировать</button>
 </div>
 
 <div class="step">Выбрать: Аляска</div>
-    
-<div class="code-box">
-<span id="zip">99501</span>
-<button class="copy-btn" onclick="copyText('zip')">Копировать</button>
+
+<div class="code-row">
+  <div class="code-label">Индекс</div>
+  <div class="code-value" id="zip">99501</div>
+  <button class="copy-btn" onclick="copyText('zip')">Копировать</button>
 </div>
 
-<div class="code-box">
-<span id="phone">907</span>
-<button class="copy-btn" onclick="copyText('phone')">Копировать</button>
+<div class="code-row">
+  <div class="code-label">Код</div>
+  <div class="code-value" id="phoneCode">907</div>
+  <button class="copy-btn" onclick="copyText('phoneCode')">Копировать</button>
 </div>
 
-<div class="code-box">
-<span id="phone">3245978</span>
-<button class="copy-btn" onclick="copyText('phone1')">Копировать</button>
+<div class="code-row">
+  <div class="code-label">Номер</div>
+  <div class="code-value" id="phoneNumber">3245978</div>
+  <button class="copy-btn" onclick="copyText('phoneNumber')">Копировать</button>
 </div>
     
 <div class="step">6. Выходим в Appstore и скачиваем Tailscale. Соглашайтесь со всем и разрешайте все, что запросит при установке. Иначе потом может работать некорректо!</div>
