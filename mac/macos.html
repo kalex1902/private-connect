@@ -84,6 +84,7 @@ img {
     opacity: 0.9;
 }
 
+
 .badge {
     display: inline-block;
     background: #f2f2f7;
@@ -295,7 +296,7 @@ img {
 <div class="badge">Важно</div>
 <h2>Получить доступ</h2>
 
-<div class="step">Введите данные:</div>
+<div class="step">Введите свои данные:</div>
 
 <input id="email" placeholder="Gmail" class="input">
 <input id="name" placeholder="ФИО (ivanov ivan)" class="input" oninput="generateDeviceName()">
@@ -310,7 +311,7 @@ img {
 </div>
 
 <div style="background:#fff3cd;padding:12px;border-radius:12px;margin-top:12px;font-size:14px;">
-📩 Отправьте этот отчёт оператору (тому, кто вас пригласил)
+📩 Отправьте этот отчёт оператору (тому кто вас пригласил)!!!
 </div>
 
 </div>
@@ -393,7 +394,7 @@ function copyReport(event) {
 
   navigator.clipboard.writeText(text);
 
-  const btn = event.target;
+  const btn = event.currentTarget;
   btn.innerText = "✅ Скопировано";
 
   setTimeout(() => {
@@ -406,7 +407,7 @@ function generateDeviceName() {
 
   if (!name) return;
 
-  const parts = name.split(" ");
+  const parts = name.split(" ").filter(Boolean);
   let lastName = parts[0] || "user";
   let firstLetter = parts[1] ? parts[1][0] : "x";
 
