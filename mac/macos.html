@@ -68,15 +68,20 @@ img {
     margin: 12px 0 20px;
     padding: 14px 22px;
     border-radius: 14px;
-    background: #0071e3;
+    background: #0a84ff; /* как у copy */
     color: white;
     text-decoration: none;
     font-weight: 600;
     transition: 0.2s;
+    text-align: center;
 }
 
 .button:hover {
-    background: #005ecb;
+    background: #0066cc;
+}
+.button:active {
+    transform: scale(0.97);
+    opacity: 0.9;
 }
 
 .badge {
@@ -147,8 +152,8 @@ img {
 
 .input:focus {
     outline: none;
-    border: 1px solid #0071e3;
-    box-shadow: 0 0 0 2px rgba(0,113,227,0.15);
+    border: 1px solid #0a84ff;
+    box-shadow: 0 0 0 2px rgba(10,132,255,0.15);
 }
 
 .warning {
@@ -232,7 +237,7 @@ img {
 <div class="step">Нажмите «Open Settings»</div>
 <img src="Снимок экрана 2026-04-19 в 12.30.19.png">
 
-<div class="step">Сдвиньте ползунок направо (еслим он еще не включен) и нажмите «Готово»</div>
+<div class="step">Сдвиньте ползунок направо (если он еще не включен) и нажмите «Готово»</div>
 <img src="Снимок экрана 2026-04-19 в 12.30.40.png">
 
 <div class="step">Нажмите «Allow VPN Configuration»</div>
@@ -296,7 +301,7 @@ img {
 <input id="name" placeholder="ФИО (ivanov ivan)" class="input" oninput="generateDeviceName()">
 <input id="device" placeholder="Устройство" class="input" readonly>
 
-<button onclick="copyReport()" class="button" style="background:#2c2c2e;">
+<button onclick="copyReport(event)" class="button">
 📋 Скопировать отчёт
 </button>
 
@@ -362,7 +367,7 @@ function copyServer(btn) {
     const text = btn.parentElement.querySelector(".server-text").innerText;
 
     navigator.clipboard.writeText(text).then(() => {
-        const msg = document.getElementById("copyMsg");
+       const msg = btn.parentElement.nextElementSibling;
         msg.style.display = "block";
 
         setTimeout(() => {
