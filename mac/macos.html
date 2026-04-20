@@ -133,7 +133,31 @@ img {
     color: #34c759;
     margin-top: 6px;
 }
-    
+
+ .input {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    border-radius: 14px;
+    border: 1px solid #e5e5ea;
+    font-size: 15px;
+    background: #f9f9fb;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    outline: none;
+    border: 1px solid #0071e3;
+    box-shadow: 0 0 0 2px rgba(0,113,227,0.15);
+}
+
+.warning {
+    background: #fff3cd;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-top: 12px;
+}
 </style>
 </head>
 
@@ -260,7 +284,32 @@ img {
 <img src="Снимок экрана 2026-04-19 в 12.37.12.png">
 
 </div>
-    
+
+<!-- ШАГ 5.5 -->
+<div class="card">
+<div class="badge">Важно</div>
+<h2>Получить доступ</h2>
+
+<div class="step">Введите данные:</div>
+
+<input id="email" placeholder="Gmail" class="input">
+<input id="name" placeholder="ФИО (ivanov ivan)" class="input" oninput="generateDeviceName()">
+<input id="device" placeholder="Устройство" class="input" readonly>
+
+<button onclick="copyReport()" class="button" style="background:#2c2c2e;">
+📋 Скопировать отчёт
+</button>
+
+<div id="reportCopied" style="display:none;color:#34c759;font-size:13px;margin-top:6px;">
+Скопировано ✔
+</div>
+
+<div style="background:#fff3cd;padding:12px;border-radius:12px;margin-top:12px;font-size:14px;">
+📩 Отправьте этот отчёт оператору (тому, кто вас пригласил)
+</div>
+
+</div>
+
 <!-- ШАГ 6 -->
 <div class="card">
 <div class="badge">Шаг 6</div>
@@ -278,10 +327,30 @@ img {
 <div class="step">Проставьте галочки как показано ниже и закройте это окно</div>
 <img src="Снимок экрана 2026-04-19 в 12.40.18.png">
 
-<div class="step">Выберите любую страну кроме Russia</div>
+<div class="step">Выберите любую страну кроме ❗ Russia</div>
 <img src="Снимок экрана 2026-04-20 в 22.31.47.png">
     
 </div>    
+
+<div class="card">
+
+<h2>Важно</h2>
+
+<div class="warning">
+Обязательно подпишитесь на Telegram-бота
+</div>
+
+<div class="step">
+1. Нажмите кнопку ниже  
+<br>2. Нажмите <b>START</b>  
+<br>3. Отправьте свой Gmail  
+</div>
+
+<a class="button" href="https://t.me/triangels_access_bot" target="_blank">
+🚀 Открыть Telegram-бота
+</a>
+
+</div>
 
 <div class="card success">
 🎉 Всё готово — можно пользоваться
@@ -301,6 +370,45 @@ function copyServer(btn) {
         }, 2000);
     });
 }
+
+function copyReport(event) {
+  const email = document.getElementById("email").value.trim();
+  const name = document.getElementById("name").value.trim();
+  const device = document.getElementById("device").value.trim();
+
+  if (!email || !name || !device) {
+    alert("Заполните все поля");
+    return;
+  }
+
+  const text = 
+`Gmail: ${email}
+ФИО: ${name}
+Устройство: ${device}`;
+
+  navigator.clipboard.writeText(text);
+
+  const btn = event.target;
+  btn.innerText = "✅ Скопировано";
+
+  setTimeout(() => {
+    btn.innerText = "📋 Скопировать отчёт";
+  }, 2000);
+}
+
+function generateDeviceName() {
+  const name = document.getElementById("name").value.toLowerCase().trim();
+
+  if (!name) return;
+
+  const parts = name.split(" ");
+  let lastName = parts[0] || "user";
+  let firstLetter = parts[1] ? parts[1][0] : "x";
+
+  document.getElementById("device").value = `${lastName}-${firstLetter}-mac-01`;
+}
+    
 </script>
+    
 </body>
 </html>
