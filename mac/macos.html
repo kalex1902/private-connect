@@ -10,75 +10,68 @@ body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     background: #f2f2f7;
-    color: #1d1d1f;
 }
 
 .container {
     max-width: 900px;
     margin: auto;
-    padding: 32px 16px;
+    padding: 24px;
 }
 
 .card {
     background: #fff;
     border-radius: 20px;
-    padding: 22px;
+    padding: 24px;
     margin-bottom: 20px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     animation: fadeIn 0.4s ease;
 }
 
-h1 { font-size: 26px; margin-bottom: 8px; }
-h2 { font-size: 20px; margin-bottom: 12px; }
+h1 { font-size: 26px; margin-bottom: 10px; }
+h2 { font-size: 20px; margin-bottom: 10px; }
 
 .step {
-    margin: 10px 0;
-    font-size: 15px;
+    margin: 12px 0;
+    font-size: 16px;
 }
 
 .warning {
     background: #fff4d6;
-    padding: 12px;
+    padding: 14px;
     border-radius: 12px;
-    font-size: 14px;
-    margin-top: 10px;
+    font-size: 15px;
 }
 
 .success {
     background: #e6f7ec;
-    padding: 12px;
+    padding: 14px;
     border-radius: 12px;
-    font-size: 14px;
-    margin-top: 10px;
+    font-size: 15px;
 }
 
 .button {
     display: inline-block;
     background: linear-gradient(135deg, #4f7cff, #6fa3ff);
     color: #fff;
-    padding: 12px 18px;
+    padding: 12px 20px;
     border-radius: 12px;
     text-decoration: none;
     font-weight: 600;
-    margin-top: 10px;
+    margin: 12px 0;
 }
 
 img {
     width: 100%;
+    max-width: 700px;
     display: block;
-    margin: 14px auto;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    margin: 16px auto;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
 }
 
 @keyframes fadeIn {
   from {opacity:0; transform: translateY(10px);}
   to {opacity:1; transform: translateY(0);}
-}
-
-@media (max-width: 600px) {
-    .container { padding: 20px 12px; }
-    h1 { font-size: 22px; }
 }
 </style>
 </head>
@@ -87,6 +80,7 @@ img {
 
 <div class="container">
 
+<!-- ВСТУП -->
 <div class="card">
 <h1>💻 Mac — установка Tailscale</h1>
 
@@ -95,24 +89,31 @@ img {
 </div>
 </div>
 
+<!-- ШАГ 1 -->
 <div class="card">
-<h2>📥 Шаг 1. Скачать</h2>
+<h2>📥 Шаг 1. Скачать приложение</h2>
 
-<div class="step">Перейдите на сайт и скачайте приложение</div>
+<div class="step">Откройте сайт и скачайте Tailscale</div>
 
 <a class="button" href="https://tailscale.com/download/mac" target="_blank">
 Скачать Tailscale
 </a>
 
 <img src="Снимок экрана 2026-04-19 в 12.19.11.png">
+
+<div class="step">Файл появится в загрузках</div>
 <img src="Снимок экрана 2026-04-19 в 12.20.00.png">
 </div>
 
+<!-- ШАГ 2 -->
 <div class="card">
 <h2>⚙️ Шаг 2. Установка</h2>
 
-<div class="step">Откройте файл и нажимайте «Продолжить»</div>
+<div class="step">Откройте скачанный файл</div>
 <img src="Снимок экрана 2026-04-19 в 12.20.42.png">
+
+<div class="step">Нажмите «Продолжить»</div>
+<img src="Снимок экрана 2026-04-19 в 12.21.37.png">
 
 <div class="step">Нажмите «Установить»</div>
 <img src="Снимок экрана 2026-04-19 в 12.24.19.png">
@@ -120,79 +121,108 @@ img {
 <div class="step">Введите пароль от Mac</div>
 <img src="Снимок экрана 2026-04-19 в 12.24.55.png">
 
-<div class="step">Дождитесь завершения</div>
+<div class="step">Дождитесь завершения установки</div>
 <img src="Снимок экрана 2026-04-19 в 12.26.26.png">
 
-<div class="step">Закройте установщик</div>
+<div class="step">Нажмите «Закрыть»</div>
 <img src="Снимок экрана 2026-04-19 в 12.27.13.png">
+
+<div class="step">Переместите установщик в корзину</div>
+<img src="Снимок экрана 2026-04-19 в 12.28.16.png">
 </div>
 
+<!-- ШАГ 3 -->
 <div class="card">
 <h2>🔐 Шаг 3. Разрешения</h2>
 
 <div class="warning">
-Обязательный шаг
+Обязательный шаг — без этого ничего работать не будет
 </div>
 
-<div class="step">Разрешите системное расширение</div>
+<div class="step">Нажмите OK</div>
 <img src="Снимок экрана 2026-04-19 в 12.29.03.png">
+
+<div class="step">Нажмите Install Now</div>
 <img src="Снимок экрана 2026-04-19 в 12.29.47.png">
+
+<div class="step">Нажмите Open Settings</div>
 <img src="Снимок экрана 2026-04-19 в 12.30.19.png">
+
+<div class="step">Включите Tailscale</div>
 <img src="Снимок экрана 2026-04-19 в 12.30.40.png">
+
+<div class="step">Введите пароль</div>
 <img src="Снимок экрана 2026-04-19 в 12.31.20.png">
+
+<div class="step">Нажмите «Готово»</div>
 <img src="Снимок экрана 2026-04-19 в 12.31.41.png">
-<img src="Снимок экрана 2026-04-19 в 12.32.38.png">
 </div>
 
+<!-- ШАГ 4 -->
 <div class="card">
-<h2>🌐 Шаг 4. Подтверждение</h2>
+<h2>🌐 Шаг 4. Разрешить подключение</h2>
 
-<div class="step">Разрешите подключение</div>
+<div class="step">Нажмите Allow Configuration</div>
 <img src="Снимок экрана 2026-04-19 в 12.33.28.png">
+
+<div class="step">Подтвердите действие</div>
 <img src="Снимок экрана 2026-04-19 в 12.34.01.png">
 </div>
 
+<!-- ШАГ 5 -->
 <div class="card">
-<h2>👤 Шаг 5. Вход</h2>
+<h2>👤 Шаг 5. Добавить аккаунт</h2>
 
 <div class="step">Откройте настройки аккаунта</div>
 <img src="Снимок экрана 2026-04-19 в 12.36.23.png">
 
-<div class="step">Введите адрес сервера</div>
+<div class="step">Нажмите Add Account</div>
 <img src="Снимок экрана 2026-04-19 в 12.37.12.png">
 
-<div class="step">Нажмите Add Account и войдите через браузер</div>
+<div class="step">Введите адрес сервера и нажмите Add Account</div>
 <img src="Снимок экрана 2026-04-19 в 12.37.52.png">
 
+<div class="step">Пройдите авторизацию в браузере</div>
 <img src="Снимок экрана 2026-04-19 в 12.38.15.png">
 </div>
 
+<!-- ШАГ 6 -->
 <div class="card">
-<h2>🔌 Шаг 6. Готово</h2>
+<h2>🔌 Шаг 6. Подключение</h2>
 
-<div class="step">Пропустите обучение</div>
+<div class="step">Пропустите обучение (Skip)</div>
 <img src="Снимок экрана 2026-04-19 в 12.39.04.png">
 
-<div class="step">Проверьте, что подключение активно</div>
+<div class="step">Убедитесь, что статус — Connected</div>
 <img src="Снимок экрана 2026-04-19 в 12.39.47.png">
+</div>
 
-<div class="step">Проверьте аккаунт</div>
-<img src="Снимок экрана 2026-04-19 в 12.40.18.png">
+<!-- ШАГ 7 -->
+<div class="card">
+<h2>⚙️ Шаг 7. Настройки (рекомендуется)</h2>
+
+<div class="step">Включите необходимые параметры</div>
+<img src="Снимок экрана 2026-04-19 в 12.41.19.png">
+</div>
+
+<!-- ФИНАЛ -->
+<div class="card">
 
 <div class="success">
-Готово — всё работает
+🎉 Готово! Всё работает
 </div>
+
+<div class="step">
+Теперь устройство подключено и готово к работе
 </div>
 
-<div class="card">
-<h2>⚙️ Рекомендуемые настройки</h2>
+<div class="warning">
+Если что-то не работает — напишите тому, кто вас подключал
+</div>
 
-<img src="Снимок экрана 2026-04-19 в 12.41.19.png">
-
-<div class="step">Включите параметры как на скриншоте</div>
 </div>
 
 </div>
 
 </body>
-</html
+</html>
