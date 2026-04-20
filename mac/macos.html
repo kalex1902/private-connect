@@ -27,6 +27,7 @@ body {
 .hero h1 {
     font-size: 40px;
     margin-bottom: 10px;
+    letter-spacing: -0.5px;
 }
 
 .hero p {
@@ -40,6 +41,7 @@ body {
     padding: 28px;
     margin-bottom: 24px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    backdrop-filter: blur(10px);
 }
 
 h2 {
@@ -92,20 +94,44 @@ img {
     font-size: 18px;
 }
 
+.server-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f2f2f7;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin: 12px 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.server-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1c1c1e;
+    word-break: break-all;
+}
+
 .copy-btn {
-    background: #34c759;
+    background: #0a84ff;
     color: white;
     border: none;
-    padding: 12px 18px;
-    border-radius: 12px;
-    font-size: 15px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    margin: 10px 0;
 }
 
 .copy-btn:hover {
-    background: #28a745;
+    background: #0066cc;
+}
+
+.copy-success {
+    display: none;
+    font-size: 13px;
+    color: #34c759;
+    margin-top: 6px;
 }
     
 </style>
@@ -136,6 +162,8 @@ img {
 <div class="step">Файл появится в загрузках и нажмите на него</div>
 <img src="Снимок экрана 2026-04-19 в 12.19.11.png">
 
+</div>
+    
 <!-- ШАГ 2 -->
 <div class="card">
 <div class="badge">Шаг 2</div>
@@ -147,7 +175,7 @@ img {
 <div class="step">Нажмите «Установить»</div>
 <img src="Снимок экрана 2026-04-19 в 12.20.42.png">
 
-<div class="step">Введите пароль от Устройства и нажмите Установить ПО</div>
+<div class="step">Введите пароль от Mac и нажмите Установить ПО</div>
 <img src="Снимок экрана 2026-04-19 в 12.21.37.png">
 
 <div class="step">Нажмите «ОК»</div>
@@ -180,9 +208,8 @@ img {
 <div class="step">Нажмите «Open Settings»</div>
 <img src="Снимок экрана 2026-04-19 в 12.30.19.png">
 
-<div class="step">Сдвиньте ползунок направо (еслим он еще не сдвинут) и нажмите «Готово»</div>
+<div class="step">Сдвиньте ползунок направо (еслим он еще не включен) и нажмите «Готово»</div>
 <img src="Снимок экрана 2026-04-19 в 12.30.40.png">
-</div>
 
 <div class="step">Нажмите «Allow VPN Configuration»</div>
 <img src="Снимок экрана 2026-04-19 в 12.31.20.png">
@@ -190,9 +217,10 @@ img {
 <div class="step">Нажмите «Разрешить»</div>
 <img src="Снимок экрана 2026-04-19 в 12.31.41.png">
 
-<div class="step">Закройте окно справа»</div>
+<div class="step">Закройте окно справа</div>
 <img src="Снимок экрана 2026-04-19 в 12.32.38.png">
-
+</div>
+    
 <!-- ШАГ 4 -->
 <div class="card">
 <div class="badge">Шаг 4</div>
@@ -203,16 +231,23 @@ img {
 
 <div class="step">Внизу слева на значок</div>
 <img src="Снимок экрана 2026-04-19 в 12.34.01.png">
-</div>
 
-<div class="step">Вставляем адрес сервера предварительно скопировав его ниже и нажимаем «Add Account»</div>
+<div class="step">
+Нажмите «Копировать» и вставьте адрес в поле <b>Custom control server URL</b>, затем нажмите «Add Account»
+</div>
 <img src="Снимок экрана 2026-04-19 в 12.36.23.png">
 
-<div class="step">Скопируйте адрес сервера</div>
-<button class="copy-btn" onclick="copyServer()">
-Скопировать адрес сервера
-</button>
-    
+<div class="server-box">
+    <div class="server-text">https://89.125.59.191.nip.io</div>
+    <button class="copy-btn" onclick="copyServer(this)">Копировать</button>
+</div>
+
+<div class="copy-success" id="copyMsg">Скопировано</div>
+
+<div style="font-size:13px; color:#6e6e73; margin-top:6px;">
+Скопируйте и вставьте в приложение
+</div>
+
 </div>
 
 
@@ -224,6 +259,8 @@ img {
 <div class="step">После входа в Гугл Аккаунт вы увидите это:</div>
 <img src="Снимок экрана 2026-04-19 в 12.37.12.png">
 
+</div>
+    
 <!-- ШАГ 6 -->
 <div class="card">
 <div class="badge">Шаг 6</div>
@@ -252,11 +289,16 @@ img {
 
 </div>
 <script>
-function copyServer() {
-    const server = "https://89.125.59.191.nip.io"; // ← ВСТАВЬ СЮДА СВОЙ
+function copyServer(btn) {
+    const text = btn.parentElement.querySelector(".server-text").innerText;
 
-    navigator.clipboard.writeText(server).then(() => {
-        alert("Адрес скопирован");
+    navigator.clipboard.writeText(text).then(() => {
+        const msg = document.getElementById("copyMsg");
+        msg.style.display = "block";
+
+        setTimeout(() => {
+            msg.style.display = "none";
+        }, 2000);
     });
 }
 </script>
