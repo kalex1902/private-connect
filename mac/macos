@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MacBook — подключение VPN</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #f2f2f7;
+}
+
+.container {
+    max-width: 420px;
+    margin: auto;
+    padding: 16px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    animation: fadeIn 0.4s ease;
+}
+
+h1 { font-size: 22px; }
+h2 { font-size: 18px; }
+
+.step {
+    margin: 8px 0;
+    font-size: 15px;
+}
+
+.warning {
+    background: #fff4d6;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.success {
+    background: #e6f7ec;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.button {
+    display: block;
+    text-align: center;
+    background: linear-gradient(135deg, #4f7cff, #6fa3ff);
+    color: #fff;
+    padding: 14px;
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+img {
+    width: 100%;
+    max-width: 260px;
+    display: block;
+    margin: 12px auto;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(10px);}
+  to {opacity:1; transform: translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ВСТУП -->
+<div class="card">
+<h1>💻 MacBook — подключение VPN</h1>
+
+<div class="warning">
+⚠️ Следуйте инструкции внимательно — это займет 2–3 минуты
+</div>
+</div>
+
+<!-- ШАГ 1 -->
+<div class="card">
+<h2>📥 ШАГ 1. Скачать Tailscale</h2>
+
+<div class="step">1. Перейдите на сайт</div>
+
+<a class="button" href="https://tailscale.com/download/mac" target="_blank">
+Скачать Tailscale
+</a>
+
+<img src="Снимок экрана 2026-04-19 в 12.19.11.png">
+
+<div class="step">2. Дождитесь загрузки файла</div>
+
+<img src="Снимок экрана 2026-04-19 в 12.20.00.png">
+
+</div>
+
+<!-- ШАГ 2 -->
+<div class="card">
+<h2>⚙️ ШАГ 2. Установка</h2>
+
+<div class="step">1. Откройте скачанный файл</div>
+<img src="Снимок экрана 2026-04-19 в 12.20.42.png">
+
+<div class="step">2. Нажимайте "Продолжить"</div>
+<img src="Снимок экрана 2026-04-19 в 12.21.37.png">
+
+<div class="step">3. Нажмите "Установить"</div>
+<img src="Снимок экрана 2026-04-19 в 12.24.19.png">
+
+<div class="step">4. Введите пароль от Mac</div>
+<img src="Снимок экрана 2026-04-19 в 12.24.55.png">
+
+<div class="step">5. Дождитесь завершения</div>
+<img src="Снимок экрана 2026-04-19 в 12.26.26.png">
+
+<div class="step">6. Нажмите "Закрыть"</div>
+<img src="Снимок экрана 2026-04-19 в 12.27.13.png">
+
+<div class="step">7. Переместите установщик в корзину</div>
+<img src="Снимок экрана 2026-04-19 в 12.28.16.png">
+
+</div>
+
+<!-- ШАГ 3 -->
+<div class="card">
+<h2>🔐 ШАГ 3. Разрешить расширение</h2>
+
+<div class="warning">
+❗ ОБЯЗАТЕЛЬНО — иначе VPN работать не будет
+</div>
+
+<div class="step">1. Нажмите OK</div>
+<img src="Снимок экрана 2026-04-19 в 12.29.03.png">
+
+<div class="step">2. Нажмите Install Now</div>
+<img src="Снимок экрана 2026-04-19 в 12.29.47.png">
+
+<div class="step">3. Нажмите Open Settings</div>
+<img src="Снимок экрана 2026-04-19 в 12.30.19.png">
+
+<div class="step">4. Включите Tailscale</div>
+<img src="Снимок экрана 2026-04-19 в 12.30.40.png">
+
+<div class="step">5. Введите пароль</div>
+<img src="Снимок экрана 2026-04-19 в 12.31.20.png">
+
+<div class="step">6. Убедитесь что включено</div>
+<img src="Снимок экрана 2026-04-19 в 12.31.41.png">
+
+<div class="step">7. Нажмите "Готово"</div>
+<img src="Снимок экрана 2026-04-19 в 12.32.38.png">
+
+</div>
+
+<!-- ШАГ 4 -->
+<div class="card">
+<h2>🌐 ШАГ 4. Разрешить VPN</h2>
+
+<div class="step">1. Нажмите Allow VPN Configuration</div>
+<img src="Снимок экрана 2026-04-19 в 12.33.28.png">
+
+<div class="step">2. Нажмите "Разрешить"</div>
+<img src="Снимок экрана 2026-04-19 в 12.34.01.png">
+
+</div>
+
+<!-- ШАГ 5 -->
+<div class="card">
+<h2>👤 ШАГ 5. Добавить аккаунт</h2>
+
+<div class="step">1. Откройте настройки аккаунта</div>
+<img src="Снимок экрана 2026-04-19 в 12.36.23.png">
+
+<div class="step">2. Вставьте адрес сервера</div>
+<img src="Снимок экрана 2026-04-19 в 12.37.12.png">
+
+<div class="step">3. Нажмите Add Account</div>
+
+<div class="step">4. Авторизуйтесь в браузере</div>
+<img src="Снимок экрана 2026-04-19 в 12.37.52.png">
+
+<div class="step">5. Успешный вход</div>
+<img src="Снимок экрана 2026-04-19 в 12.38.15.png">
+
+</div>
+
+<!-- ШАГ 6 -->
+<div class="card">
+<h2>🔌 ШАГ 6. Подключение</h2>
+
+<div class="step">1. Пропустите обучение</div>
+<img src="Снимок экрана 2026-04-19 в 12.39.04.png">
+
+<div class="step">2. Убедитесь что подключено</div>
+<img src="Снимок экрана 2026-04-19 в 12.39.47.png">
+
+<div class="step">3. Проверьте аккаунт</div>
+<img src="Снимок экрана 2026-04-19 в 12.40.18.png">
+
+</div>
+
+<!-- ШАГ 7 -->
+<div class="card">
+<h2>⚙️ ШАГ 7. Рекомендуемые настройки</h2>
+
+<div class="step">Включите все как на скрине</div>
+<img src="Снимок экрана 2026-04-19 в 12.41.19.png">
+
+<div class="step">Проверьте дополнительные параметры</div>
+<img src="Снимок экрана 2026-04-19 в 12.24.19.png">
+
+</div>
+
+<!-- ФИНАЛ -->
+<div class="card">
+
+<div class="success">
+🎉 Готово! VPN подключен
+</div>
+
+<div class="step">
+Теперь интернет работает через защищённое соединение
+</div>
+
+<div class="warning">
+Если что-то не работает — напишите тому, кто вас пригласил
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
