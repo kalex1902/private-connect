@@ -44,67 +44,45 @@ body {
 
 h2 {
     font-size: 22px;
-    margin-bottom: 12px;
 }
 
 .step {
-    font-size: 17px;
-    margin: 16px 0 8px;
+    font-size: 16px;
+    margin: 10px 0;
 }
 
 .button {
     display: inline-block;
-    margin: 12px 0 20px;
-    padding: 14px 22px;
+    margin: 10px 10px 10px 0;
+    padding: 14px 20px;
     border-radius: 14px;
     background: #0a84ff;
     color: white;
     text-decoration: none;
     font-weight: 600;
-    text-align: center;
 }
 
-.button:hover {
-    background: #0066cc;
-}
-
-.badge {
-    display: inline-block;
-    background: #f2f2f7;
-    padding: 6px 12px;
-    border-radius: 10px;
-    font-size: 13px;
-    margin-bottom: 10px;
+.button.secondary {
+    background: #e5e5ea;
+    color: black;
 }
 
 .warning {
     background: #fff3cd;
     padding: 12px;
     border-radius: 12px;
+    margin-top: 10px;
     font-size: 14px;
-    margin-top: 12px;
-}
-
-.success {
-    text-align: center;
-    padding: 30px;
-    font-size: 18px;
 }
 
 .input {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
+    border-radius: 10px;
     margin-top: 10px;
-    border-radius: 14px;
-    border: 1px solid #e5e5ea;
-    font-size: 15px;
-    background: #f9f9fb;
+    border: 1px solid #ddd;
 }
 
-.input:focus {
-    outline: none;
-    border: 1px solid #0a84ff;
-}
 </style>
 </head>
 
@@ -114,126 +92,110 @@ h2 {
 
 <div class="hero">
 <h1>Windows — подключение</h1>
-<p>Mesh-сеть T-Guard<br>Установка займёт 2–3 минуты</p>
+<p>Mesh-сеть T-Guard · установка займёт 2–3 минуты</p>
 </div>
 
 <!-- ШАГ 1 -->
 <div class="card">
-<div class="badge">Шаг 1</div>
-<h2>Скачать приложение</h2>
+<h2>Шаг 1. Скачать приложение</h2>
 
-<div class="step">Установите Tailscale</div>
-
-<a class="button" href="https://tailscale.com/download/windows" target="_blank">
-⬇️ Скачать Tailscale
+<a class="button" href="https://pkgs.tailscale.com/stable/tailscale-setup-latest.exe">
+⬇ Скачать Tailscale
 </a>
 
-<div class="step">Next → Next → Install</div>
+<a class="button secondary" href="https://tailscale.com/download/windows" target="_blank">
+Открыть сайт (если не скачалось)
+</a>
+
+<div class="step">
+После скачивания:
+<br>1. Откройте файл
+<br>2. Нажмите Next → Next → Install
+</div>
+
+<div class="warning">
+Если файл не скачался — попробуйте Chrome или Edge
+</div>
 
 </div>
 
 <!-- ШАГ 2 -->
 <div class="card">
-<div class="badge">Шаг 2</div>
-<h2>Подключение</h2>
+<h2>Шаг 2. Подключение</h2>
 
-<a class="button"
-href="https://github.com/kalex1902/private-connect/raw/main/windows/Подключиться%20к%20T-Guard.bat.zip">
-📦 Скачать и подключиться
+<a class="button" href="https://kalex1902.github.io/private-connect/windows/Подключиться%20к%20T-Guard.bat.zip">
+⚡ Скачать и подключиться
 </a>
 
 <div class="step">
 1. Скачайте архив  
-<br>2. Откройте его (двойной клик)  
+<br>2. Откройте его  
 <br>3. Перетащите файл на рабочий стол  
-<br>4. Запустите файл "Подключиться к T-Guard.bat"
+<br>4. Запустите "Подключиться к T-Guard.bat"
 </div>
 
 <div class="warning">
-Если появится предупреждение Windows — нажмите «Подробнее» → «Выполнить в любом случае»
+Если Windows ругается → «Подробнее» → «Выполнить в любом случае»
 </div>
 
 </div>
 
 <!-- ШАГ 3 -->
 <div class="card">
-<div class="badge">Шаг 3</div>
-<h2>Авторизация</h2>
+<h2>Шаг 3. Авторизация</h2>
 
-<div class="step">Войдите через Google</div>
-<div class="step">Дождитесь "Sign in successfully"</div>
+<div class="step">
+Войдите через Google  
+<br>Дождитесь "Sign in successfully"
+</div>
 
 </div>
 
-<!-- ШАГ 4 -->
+<!-- ОТЧЕТ -->
 <div class="card">
-<div class="badge">Важно</div>
 <h2>Получить доступ</h2>
-
-<div class="step">Введите свои данные:</div>
 
 <input id="email" placeholder="Gmail" class="input">
 <input id="name" placeholder="ФИО (ivanov ivan)" class="input" oninput="generateDeviceName()">
 <input id="device" placeholder="Устройство" class="input" readonly>
 
-<button onclick="copyReport(event)" class="button">
+<button onclick="copyReport()" class="button">
 📋 Скопировать отчёт
 </button>
 
-<div id="reportCopied" style="display:none;color:#34c759;font-size:13px;">
-Скопировано ✔
-</div>
-
 <div class="warning">
-Отправьте отчёт тому, кто вас пригласил
+📩 Отправьте этот отчёт оператору!
 </div>
 
 </div>
 
-<div class="card success">
-🎉 Всё готово — можно пользоваться<br><br>
-Mesh-сеть T-Guard<br>
-Сделано TriAngels
+<div class="card">
+🎉 Всё готово — можно пользоваться
 </div>
 
 </div>
 
 <script>
-function copyReport(event) {
-  const email = document.getElementById("email").value.trim();
-  const name = document.getElementById("name").value.trim();
-  const device = document.getElementById("device").value.trim();
-
-  if (!email || !name || !device) {
-    alert("Заполните все поля");
-    return;
-  }
-
-  const text =
-`Gmail: ${email}
-ФИО: ${name}
-Устройство: ${device}`;
-
-  navigator.clipboard.writeText(text);
-
-  const btn = event.currentTarget;
-  btn.innerText = "✅ Скопировано";
-
-  setTimeout(() => {
-    btn.innerText = "📋 Скопировать отчёт";
-  }, 2000);
-}
-
 function generateDeviceName() {
   const name = document.getElementById("name").value.toLowerCase().trim();
-
   if (!name) return;
 
-  const parts = name.split(" ").filter(Boolean);
-  let lastName = parts[0] || "user";
-  let firstLetter = parts[1] ? parts[1][0] : "x";
+  const parts = name.split(" ");
+  const last = parts[0] || "user";
+  const first = parts[1] ? parts[1][0] : "x";
 
-  document.getElementById("device").value = `${lastName}-${firstLetter}-win-01`;
+  document.getElementById("device").value = `${last}-${first}-win-01`;
+}
+
+function copyReport() {
+  const email = document.getElementById("email").value;
+  const name = document.getElementById("name").value;
+  const device = document.getElementById("device").value;
+
+  const text = `Gmail: ${email}\nФИО: ${name}\nУстройство: ${device}`;
+  navigator.clipboard.writeText(text);
+
+  alert("Скопировано!");
 }
 </script>
 
