@@ -172,7 +172,7 @@ img {
 <div class="container">
 
 <div class="hero">
-<h1>Mac — подключение</h1>
+<h1>💻 Подключение на Mac</h1>
 <p>Установка займёт 2–3 минуты</p>
 </div>
 
@@ -272,7 +272,6 @@ img {
     <button class="copy-btn" onclick="copyServer(this)">Копировать</button>
 </div>
 
-<div class="copy-success" id="copyMsg">Скопировано</div>
 
 <div style="font-size:13px; color:#6e6e73; margin-top:6px;">
 Скопируйте и вставьте в приложение
@@ -284,35 +283,12 @@ img {
 <!-- ШАГ 5 -->
 <div class="card">
 <div class="badge">Шаг 5</div>
-<h2>Вас перебросит в браузер и вам надо войти через свой Гугл Аккаунт</h2>
+<h2>Вас перебросит в браузер</h2>
 
-<div class="step">После входа в Гугл Аккаунт вы увидите это:</div>
+<div class="step">
+Войдите через свой личный Google-аккаунт (он будет использоваться на всех устройствах)
+</div>
 <img src="Снимок экрана 2026-04-19 в 12.37.12.png">
-
-</div>
-
-<!-- ШАГ 5.5 -->
-<div class="card">
-<div class="badge">Важно</div>
-<h2>Получить доступ</h2>
-
-<div class="step">Введите свои данные:</div>
-
-<input id="email" placeholder="Gmail" class="input">
-<input id="name" placeholder="ФИО (ivanov ivan)" class="input" oninput="generateDeviceName()">
-<input id="device" placeholder="Устройство" class="input" readonly>
-
-<button onclick="copyReport(event)" class="button">
-📋 Скопировать отчёт
-</button>
-
-<div id="reportCopied" style="display:none;color:#34c759;font-size:13px;margin-top:6px;">
-Скопировано ✔
-</div>
-
-<div style="background:#fff3cd;padding:12px;border-radius:12px;margin-top:12px;font-size:14px;">
-📩 Отправьте этот отчёт оператору (тому кто вас пригласил)!!!
-</div>
 
 </div>
 
@@ -343,7 +319,8 @@ img {
 <h2>Важно</h2>
 
 <div class="warning">
-Обязательно подпишитесь на Telegram-бота
+✅ Доступ уже активирован  
+📩 Завершите настройку через Telegram-бота
 </div>
 
 <div class="step">
@@ -365,54 +342,17 @@ img {
 </div>
 <script>
 function copyServer(btn) {
-    const text = btn.parentElement.querySelector(".server-text").innerText;
-
-    navigator.clipboard.writeText(text).then(() => {
-       const msg = btn.parentElement.nextElementSibling;
-        msg.style.display = "block";
-
-        setTimeout(() => {
-            msg.style.display = "none";
-        }, 2000);
-    });
-}
-
-function copyReport(event) {
-  const email = document.getElementById("email").value.trim();
-  const name = document.getElementById("name").value.trim();
-  const device = document.getElementById("device").value.trim();
-
-  if (!email || !name || !device) {
-    alert("Заполните все поля");
-    return;
-  }
-
-  const text = 
-`Gmail: ${email}
-ФИО: ${name}
-Устройство: ${device}`;
-
+  const text = btn.parentElement.querySelector(".server-text").innerText;
   navigator.clipboard.writeText(text);
 
-  const btn = event.currentTarget;
-  btn.innerText = "✅ Скопировано";
+  const original = btn.innerText;
+  btn.innerText = "✅";
 
   setTimeout(() => {
-    btn.innerText = "📋 Скопировать отчёт";
-  }, 2000);
+    btn.innerText = original;
+  }, 1500);
 }
 
-function generateDeviceName() {
-  const name = document.getElementById("name").value.toLowerCase().trim();
-
-  if (!name) return;
-
-  const parts = name.split(" ").filter(Boolean);
-  let lastName = parts[0] || "user";
-  let firstLetter = parts[1] ? parts[1][0] : "x";
-
-  document.getElementById("device").value = `${lastName}-${firstLetter}-mac-01`;
-}
     
 </script>
     
