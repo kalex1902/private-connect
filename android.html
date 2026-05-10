@@ -190,7 +190,7 @@ img {
     
 <div class="code-box">
 <span id="server">https://login.t-guard.net</span>
-<button class="copy-btn" onclick="copyText('server')">Копировать</button>
+<button class="copy-btn" onclick="copyText('server', this)">Копировать</button>
 </div>
 
 <div class="step">6. Войти через свой Google-аккаунт</div>
@@ -204,30 +204,13 @@ img {
 
 </div>
 
-
-<!-- ШАГ 3 -->
-<div class="card">
-<h2>📌 ШАГ 3. Получить доступ</h2>
-
-<div class="step">Введите данные:</div>
-
-<input class="input" placeholder="Gmail" id="email">
-<input class="input" placeholder="ФИО (ivanov ivan)" id="name" oninput="generateDeviceName()">
-<input class="input" placeholder="Устройство" id="device" readonly>
-
-<button class="button" onclick="copyReport(event)">📋 Скопировать отчет</button>
-
-<div class="warning">
-📩 Отправьте этот отчет оператору (тому кто вас пригласил)!!!
-</div>
-
 <hr style="margin:16px 0; border:none; border-top:1px solid #eee;">
 
 <!-- ПОДКЛЮЧЕНИЕ -->   
 <h2>📡 Подключение</h2>
 
 <div class="step">
-После одобрения оператором:
+Доступ уже активирован после оплаты:
 </div>
 
 <div class="step">
@@ -255,7 +238,7 @@ img {
 <div class="step">
 • Статус <b>Connected</b>  
 <br>• Включенный переключатель  
-<br>• Выбранную страну (например: niderlandy)
+<br>• Выбранную страну (например: netherlands)
 </div>
 
 <img src="IMG_6012.PNG">
@@ -328,50 +311,18 @@ img {
 </div>
 
 <script>
-function copyText(id) {
+function copyText(id, btn) {
   const text = document.getElementById(id).innerText;
   navigator.clipboard.writeText(text);
-  alert("Скопировано!");
-}
 
-function generateDeviceName() {
-  const name = document.getElementById("name").value.toLowerCase().trim();
-
-  if (!name) return;
-
-  const parts = name.split(" ");
-  let lastName = parts[0] || "user";
-  let firstLetter = parts[1] ? parts[1][0] : "x";
-
-  const device = `${lastName}-${firstLetter}-android-01`;
-
-  document.getElementById("device").value = device;
-}
-
-function copyReport(event) {
-  const email = document.getElementById("email").value.trim();
-  const name = document.getElementById("name").value.trim();
-  const device = document.getElementById("device").value.trim();
-
-  if (!email || !name || !device) {
-    alert("Заполните все поля");
-    return;
-  }
-
-  const text = 
-`Gmail: ${email}
-ФИО: ${name}
-Устройство: ${device}`;
-
-  navigator.clipboard.writeText(text);
-
-  const btn = event.target;
-  btn.innerText = "✅ Скопировано";
+  const original = btn.innerText;
+  btn.innerText = "✅";
 
   setTimeout(() => {
-    btn.innerText = "📋 Скопировать отчет";
-  }, 2000);
+    btn.innerText = original;
+  }, 1500);
 }
+
 </script>
 
 </body>
