@@ -272,26 +272,11 @@ img {
 <div class="step">7. Ждем когда iPhone предложит кнопку Продолжить и жмем на нее</div>
 <img src="IMG_5990.jpg">
 
-<div class="step">8. Войти через свой личный Google-аккаунт (в дальнейшем он будет использоваться для других ваших устройств)</div>
+<div class="step">8. Войти !СТРОГО! через свой личный Google-аккаунт (при подключении других ваших устройств используем его)</div>
 
 <div class="step">9. Обязательно должны увидеть зеленым цветом: <b>Sign in successfully</b></div>
 <img src="Снимок экрана 2026-04-16 в 16.36.06.png">
     
-</div>
-
-<div class="card">
-<h2>📌 ШАГ 3. Получить доступ</h2>
-
-<div class="step">Введите данные:</div>
-
-<input class="input" placeholder="Gmail" id="email">
-<input class="input" placeholder="ФИО (ivanov ivan)" id="name" oninput="generateDeviceName()">
-<input class="input" placeholder="Устройство" id="device" readonly>
-
-<button class="button" onclick="copyReport(event)">📋 Скопировать отчет</button>
-
-<div class="warning">
-📩 Отправьте этот отчет оператору (тому кто вас пригласил)!!!
 </div>
 
 <hr style="margin:16px 0; border:none; border-top:1px solid #eee;">
@@ -300,10 +285,6 @@ img {
 <div class="card">
 
 <h2>📡 Подключение</h2>
-
-<div class="step">
-После одобрения оператором:
-</div>
 
 <div class="step">
 1. Откройте приложение Tailscale  
@@ -345,7 +326,7 @@ img {
 <h2>📩 Важно</h2>
 
 <div class="warning">
-Обязательно подпишитесь на Telegram-бота
+Обязательно подпишитесь на Telegram-бота по кнопке ниже или по кнопке в личном кабинете
 </div>
 
 <div class="step">
@@ -379,51 +360,6 @@ function copyText(id) {
   navigator.clipboard.writeText(text);
 }
 
-function generateDeviceName() {
-  const name = document.getElementById("name").value.toLowerCase().trim();
-
-  if (!name) return;
-
-  const parts = name.split(" ");
-  let lastName = parts[0] || "user";
-  let firstLetter = parts[1] ? parts[1][0] : "x";
-
-  document.getElementById("device").value = `${lastName}-${firstLetter}-iphone-01`;
-}
-
-function validateEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function copyReport(event) {
-  const email = document.getElementById("email").value.trim();
-  const name = document.getElementById("name").value.trim();
-  const device = document.getElementById("device").value.trim();
-
-  if (!email || !name || !device) {
-    alert("Заполните все поля");
-    return;
-  }
-
-  if (!validateEmail(email)) {
-    alert("Введите корректный Gmail");
-    return;
-  }
-
-  const text = 
-`Gmail: ${email}
-ФИО: ${name}
-Устройство: ${device}`;
-
-  navigator.clipboard.writeText(text);
-
-  const btn = event.target;
-  btn.innerText = "✅ Скопировано";
-
-  setTimeout(() => {
-    btn.innerText = "📋 Скопировать отчет";
-  }, 2000);
-}
 </script>
 
 </body>
