@@ -52,19 +52,23 @@ h2 {
 }
 
 .button {
-    display: inline-block;
-    margin: 10px 10px 10px 0;
+    display: block;
+    max-width: 320px;
+    margin: 16px auto;
     padding: 14px 20px;
     border-radius: 14px;
     background: #0a84ff;
     color: white;
     text-decoration: none;
     font-weight: 600;
+    text-align: center;
 }
 
 .button.secondary {
     background: #e5e5ea;
     color: black;
+    max-width: 320px;
+    margin: 10px auto;
 }
 
 .warning {
@@ -91,7 +95,7 @@ h2 {
 <div class="container">
 
 <div class="hero">
-<h1>Windows — подключение</h1>
+<h1>💻 Windows — подключение</h1>
 <p>Mesh-сеть T-Guard · установка займёт 2–3 минуты</p>
 </div>
 
@@ -131,11 +135,12 @@ h2 {
 1. Скачайте архив  
 <br>2. Откройте его  
 <br>3. Перетащите файл на рабочий стол  
-<br>4. Запустите "Подключиться к T-Guard.bat"
+<br>4. Запустите файл "Подключиться к T-Guard.bat" (двойным кликом)
 </div>
 
 <div class="warning">
 Если Windows ругается → «Подробнее» → «Выполнить в любом случае»
+<br>💡 Это нормально — файл безопасен
 </div>
 
 </div>
@@ -145,36 +150,33 @@ h2 {
 <h2>Шаг 3. Авторизация</h2>
 
 <div class="step">
-Войдите через Google  
+Войдите через свой Google-аккаунт (он будет использоваться на всех устройствах) 
 <br>Дождитесь "Sign in successfully"
 </div>
 
 </div>
-
-<!-- ОТЧЕТ -->
 <div class="card">
-<h2>Получить доступ</h2>
+<h2>📡 Подключение</h2>
 
-<input id="email" placeholder="Gmail" class="input">
-<input id="name" placeholder="ФИО (ivanov ivan)" class="input" oninput="generateDeviceName()">
-<input id="device" placeholder="Устройство" class="input" readonly>
-
-<button onclick="copyReport()" class="button">
-📋 Скопировать отчёт
-</button>
+<div class="step">
+1. Откройте Tailscale  
+<br>2. Включите переключатель  
+<br>3. Выберите любую страну  
+<br>❗ кроме <b>Russia</b>
+</div>
 
 <div class="warning">
-📩 Отправьте этот отчёт оператору!
+💡 Интернет начнёт работать через выбранную страну
 </div>
 
 </div>
-    
 <div class="card">
 
 <h2>Важно</h2>
 
 <div class="warning">
-Обязательно подпишитесь на Telegram-бота
+✅ Доступ уже активирован  
+📩 Завершите настройку в Telegram-боте
 </div>
 
 <div class="step">
@@ -190,33 +192,15 @@ h2 {
 </div>
     
 <div class="card">
-🎉 Всё готово — можно пользоваться
+<div class="warning" style="text-align:center;">
+🎉 Готово! Теперь у вас есть доступ ко всем благам цивилизации
+</div>
 </div>
 
 </div>
 
 <script>
-function generateDeviceName() {
-  const name = document.getElementById("name").value.toLowerCase().trim();
-  if (!name) return;
 
-  const parts = name.split(" ");
-  const last = parts[0] || "user";
-  const first = parts[1] ? parts[1][0] : "x";
-
-  document.getElementById("device").value = `${last}-${first}-win-01`;
-}
-
-function copyReport() {
-  const email = document.getElementById("email").value;
-  const name = document.getElementById("name").value;
-  const device = document.getElementById("device").value;
-
-  const text = `Gmail: ${email}\nФИО: ${name}\nУстройство: ${device}`;
-  navigator.clipboard.writeText(text);
-
-  alert("Скопировано!");
-}
 </script>
 
 </body>
