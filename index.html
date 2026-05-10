@@ -61,15 +61,6 @@ h2 {
     border: 1px solid #e5e7eb;
 }
 
-.copy-btn {
-    background: #007aff;
-    border: none;
-    color: white;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-}
-
 .copy-btn:active {
     transform: scale(0.95);
     opacity: 0.7;
@@ -241,7 +232,7 @@ img {
   <button class="copy-btn" onclick="copyText('phoneNumber')">Копировать</button>
 </div>
     
-<div class="step">6. Выходим в Appstore и скачиваем Tailscale. Соглашайтесь со всем и разрешайте все, что запросит при установке. Иначе потом может работать некорректо!</div>
+<div class="step">6. Выходим в Appstore и скачиваем Tailscale. Соглашайтесь со всем и разрешайте все, что запросит при установке. Иначе потом может работать некорректно!</div>
     
 </div>
 
@@ -266,13 +257,13 @@ img {
 
 <div class="code-box">
 <span id="server">https://login.t-guard.net</span>
-<button class="copy-btn" onclick="copyText('server')">Копировать</button>
+<button class="copy-btn" onclick="copyText('server', this)">Копировать</button>
 </div>
 
 <div class="step">7. Ждем когда iPhone предложит кнопку Продолжить и жмем на нее</div>
 <img src="IMG_5990.jpg">
 
-<div class="step">8. Войти !СТРОГО! через свой личный Google-аккаунт (при подключении других ваших устройств используем его)</div>
+<div class="step">8. Войдите через свой личный Google-аккаунт (он будет использоваться на всех ваших устройствах)</div>
 
 <div class="step">9. Обязательно должны увидеть зеленым цветом: <b>Sign in successfully</b></div>
 <img src="Снимок экрана 2026-04-16 в 16.36.06.png">
@@ -308,7 +299,7 @@ img {
 <div class="step">
 • Статус <b>Connected</b>  
 <br>• Включенный переключатель  
-<br>• Выбранную страну (например: niderlandy)
+<br>• Выбранную страну (например: netherlands)
 </div>
 
 <img src="IMG_6012.PNG">
@@ -326,7 +317,11 @@ img {
 <h2>📩 Важно</h2>
 
 <div class="warning">
-Обязательно подпишитесь на Telegram-бота по кнопке ниже или по кнопке в личном кабинете
+Ваш доступ уже активирован после оплаты!
+</div>
+
+<div class="step">
+Чтобы завершить настройку:
 </div>
 
 <div class="step">
@@ -355,9 +350,16 @@ img {
 </div>
 
 <script>
-function copyText(id) {
+function copyText(id, btn) {
   const text = document.getElementById(id).innerText;
   navigator.clipboard.writeText(text);
+
+  const original = btn.innerText;
+  btn.innerText = "✅";
+
+  setTimeout(() => {
+    btn.innerText = original;
+  }, 1500);
 }
 
 </script>
