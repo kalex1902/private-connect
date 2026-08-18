@@ -55,16 +55,6 @@ body {
   background: linear-gradient(145deg, #ffffff 0%, #eef5ff 100%);
 }
 
-.eyebrow {
-  display: inline-block;
-  margin-bottom: 10px;
-  color: var(--blue-dark);
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-}
-
 h1 {
   max-width: 800px;
   margin: 0 auto 12px;
@@ -127,32 +117,6 @@ p { margin: 8px 0; }
   font-size: 14px;
 }
 
-.overview-grid {
-  display: block;
-}
-
-.overview-grid .card {
-  height: auto;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin-top: 18px;
-}
-
-.chip {
-  padding: 7px 11px;
-  border: 1px solid #d9e6ff;
-  border-radius: 999px;
-  background: rgba(255,255,255,.75);
-  color: #315d9d;
-  font-size: 13px;
-  font-weight: 700;
-}
-
 .warning,
 .success,
 .example {
@@ -176,31 +140,20 @@ p { margin: 8px 0; }
   font-weight: 800;
 }
 
-.toc {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.toc a {
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  color: var(--text);
-  background: #fafbfc;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.toc a:active { transform: scale(.98); }
-
 .sequence {
   margin: 0;
   padding-left: 22px;
 }
 
 .sequence li { margin: 6px 0; }
+
+.sequence a {
+  color: var(--text);
+  text-decoration-color: #b8c8e0;
+  text-underline-offset: 3px;
+}
+
+.sequence a:hover { color: var(--blue-dark); }
 
 .values {
   display: grid;
@@ -222,7 +175,6 @@ p { margin: 8px 0; }
 
 .value span {
   display: block;
-  margin-bottom: 0;
   color: var(--muted);
   font-size: 12px;
 }
@@ -329,7 +281,7 @@ footer {
   .card { padding: 18px; border-radius: 18px; }
   .hero { padding: 28px 18px; }
   .computer-note { text-align: left; }
-  .toc, .values, .requirements { grid-template-columns: 1fr; }
+  .requirements, .values { grid-template-columns: 1fr; }
   .requirement, .value { display: block; }
   .requirement strong, .value span { margin-bottom: 4px; }
   pre { font-size: 12px; }
@@ -348,78 +300,36 @@ footer {
 <main class="container" id="top">
 
   <section class="card hero">
-    <span class="eyebrow">Универсальная инструкция</span>
     <h1>Установка ноды TCloud на NAS UGREEN</h1>
     <p class="subtitle">UGOS Pro · Docker Compose · Identity · Setup · проверка запуска</p>
-    <div class="chips">
-      <span class="chip">Основной сценарий — компьютер</span>
-      <span class="chip">Доступ к роутеру и NAS</span>
-      <span class="chip">С примерами команд</span>
-    </div>
-    <div class="warning computer-note">❗ Выполняйте установку с компьютера, подключённого к той же сети, что и NAS. Во время настройки понадобятся веб-интерфейс роутера, панель UGOS Pro и Терминал для SSH. Значения в примерах нужно заменить на свои.</div>
+    <div class="warning computer-note">❗ Выполняйте установку с компьютера, подключённого к той же сети, что и NAS. Значения в примерах нужно заменить на свои.</div>
   </section>
 
   <section class="card">
     <h2>💻 Что подготовить на компьютере</h2>
     <div class="requirements">
-      <div class="requirement"><strong>Компьютер</strong><span>Windows, macOS или Linux в локальной сети NAS.</span></div>
-      <div class="requirement"><strong>Доступ к роутеру</strong><span>Адрес панели, логин и пароль администратора.</span></div>
-      <div class="requirement"><strong>Доступ к UGOS Pro</strong><span>Учётная запись администратора UGREEN NAS.</span></div>
-      <div class="requirement"><strong>Терминал</strong><span>PowerShell, Windows Terminal или Terminal на macOS/Linux.</span></div>
+      <div class="requirement"><strong>Компьютер</strong><span>Компьютер, с которого можно открыть панель управления роутером и веб-интерфейс NAS.</span></div>
+      <div class="requirement"><strong>Доступ к роутеру</strong><span>Адрес панели управления, логин и пароль администратора роутера. Не путайте их с названием и паролем Wi-Fi. Обычно данные для входа указаны на наклейке роутера.</span></div>
+      <div class="requirement"><strong>Доступ к UGOS Pro</strong><span>Адрес NAS, логин и пароль администратора UGOS Pro.</span></div>
+      <div class="requirement"><strong>Терминал</strong><span>Терминал на компьютере с Windows, macOS или Linux для подключения к NAS по SSH.</span></div>
     </div>
   </section>
 
-  <div class="overview-grid">
   <section class="card">
     <h2>⚡ Краткая последовательность</h2>
     <ol class="sequence">
-      <li>Создать Storage Pool и Volume на диске для ноды.</li>
-      <li>Закрепить постоянный локальный IP за NAS.</li>
-      <li>Убедиться, что есть внешний статический IPv4.</li>
-      <li>Пробросить порты 14002 и 28967 на NAS.</li>
-      <li>Включить SSH в UGOS Pro и подключиться к NAS.</li>
-      <li>Создать каталоги TCloud.</li>
-      <li>Создать <code>docker-compose.yml</code>.</li>
-      <li>Создать и авторизовать Identity.</li>
-      <li>Выполнить первичную настройку Setup.</li>
-      <li>Запустить контейнер.</li>
-      <li>Проверить контейнер, процессы, порты и Dashboard.</li>
+      <li><a href="#step-1">Создать Storage Pool и Volume на диске для ноды.</a></li>
+      <li><a href="#step-2">Закрепить постоянный локальный IP за NAS.</a></li>
+      <li><a href="#step-3">Убедиться, что есть внешний статический IPv4.</a></li>
+      <li><a href="#step-4">Пробросить порты 14002 и 28967 на NAS.</a></li>
+      <li><a href="#step-5">Включить SSH в UGOS Pro и подключиться к NAS.</a></li>
+      <li><a href="#step-6">Создать каталоги TCloud.</a></li>
+      <li><a href="#step-7">Создать <code>docker-compose.yml</code>.</a></li>
+      <li><a href="#step-8">Создать и авторизовать Identity.</a></li>
+      <li><a href="#step-9">Выполнить первичную настройку Setup.</a></li>
+      <li><a href="#step-10">Запустить контейнер.</a></li>
+      <li><a href="#step-11">Проверить контейнер, процессы, порты и Dashboard.</a></li>
     </ol>
-  </section>
-
-  <section class="card">
-    <h2>🧭 Навигация</h2>
-    <div class="toc">
-      <a href="#step-1">1. Диск и Volume</a>
-      <a href="#step-2">2. Локальный IP</a>
-      <a href="#step-3">3. Внешний IPv4</a>
-      <a href="#step-4">4. Порты</a>
-      <a href="#step-5">5. SSH</a>
-      <a href="#step-6">6. Каталоги</a>
-      <a href="#step-7">7. Docker Compose</a>
-      <a href="#step-8">8. Identity</a>
-      <a href="#step-9">9. Setup</a>
-      <a href="#step-10">10. Запуск</a>
-      <a href="#step-11">11. Проверка</a>
-      <a href="#troubleshooting">Если что-то не работает</a>
-    </div>
-  </section>
-  </div>
-
-  <section class="card">
-    <h2>🏷️ Шаблонные обозначения</h2>
-    <p>В инструкции используются примеры. Перед выполнением команд подставьте свои данные.</p>
-    <div class="values">
-      <div class="value"><span>Пользователь NAS</span><code>ivan</code></div>
-      <div class="value"><span>Локальный IP NAS</span><code>192.168.1.120</code></div>
-      <div class="value"><span>Внешний IPv4</span><code>203.0.113.25</code></div>
-      <div class="value"><span>E-mail оператора</span><code>node@example.com</code></div>
-      <div class="value"><span>Кошелёк</span><code>0x1234...ABCD</code></div>
-      <div class="value"><span>Выделенное место</span><code>16000GB</code></div>
-      <div class="value"><span>Папка ноды</span><code>/volume1/docker/triangles</code></div>
-      <div class="value"><span>Docker image</span><code>registry.gitlab.com/softdds/tcloud:latest</code></div>
-    </div>
-    <div class="warning">Адрес <code>203.0.113.25</code> приведён только как пример. Не копируйте его в свою настройку.</div>
   </section>
 
   <section class="card" id="step-1">
