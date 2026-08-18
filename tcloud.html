@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f2f2f7">
-<title>Установка ноды TCloud на NAS UGREEN</title>
+<title>Установка ноды T-Cloud на NAS UGREEN</title>
 
 <style>
 :root {
@@ -382,7 +382,7 @@ footer {
 <main class="container" id="top">
 
   <section class="card hero">
-    <h1>Установка ноды TCloud на NAS UGREEN</h1>
+    <h1>Установка ноды T-Cloud на NAS UGREEN</h1>
     <p class="subtitle">UGOS Pro · Docker Compose · Identity · Setup · проверка запуска</p>
     <div class="warning computer-note">❗ Выполняйте установку с компьютера, подключённого к той же сети, что и NAS. Значения в примерах нужно заменить на свои.</div>
   </section>
@@ -406,7 +406,7 @@ footer {
       <li><a href="#step-3">Убедиться, что есть внешний статический IPv4.</a></li>
       <li><a href="#step-4">Пробросить порты 14002 и 28967 на NAS.</a></li>
       <li><a href="#step-5">Включить SSH в UGOS Pro и подключиться к NAS.</a></li>
-      <li><a href="#step-6">Создать каталоги TCloud.</a></li>
+      <li><a href="#step-6">Создать каталоги T-Cloud.</a></li>
       <li><a href="#step-7">Создать <code>docker-compose.yml</code>.</a></li>
       <li><a href="#step-8">Создать Identity.</a></li>
       <li><a href="#step-9">Выполнить первичную настройку Setup.</a></li>
@@ -423,7 +423,15 @@ footer {
       <li>Создайте Volume и дождитесь состояния <b>Normal</b>.</li>
       <li>Не выделяйте под ноду весь объём: оставьте запас для системы и служебных файлов.</li>
     </ol>
-    <div class="example"><span class="example-title">Пример результата</span>Диск 18 TB → Storage Pool 1 → режим Basic → Volume 1 → состояние Normal → для ноды выделено 16000GB.</div>
+    <div class="code-box">
+      <div class="code-label">Пример результата</div>
+      <pre><code>Диск: 18 TB
+Storage Pool: Storage Pool 1
+Режим: Basic
+Volume: Volume 1
+Состояние: Normal
+Выделено для ноды: 16000GB</code></pre>
+    </div>
     <div class="placeholder">📷 Здесь позже можно добавить скриншот Storage Pool и Volume</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
@@ -436,7 +444,13 @@ footer {
       <li>Создайте привязку, чтобы NAS всегда получал один и тот же адрес.</li>
       <li>После сохранения проверьте, что веб-интерфейс NAS открывается по этому IP.</li>
     </ol>
-    <div class="example"><span class="example-title">Пример результата</span>UGREEN NAS → MAC <code>84:47:09:12:34:56</code> → постоянный IP <code>192.168.1.120</code>.</div>
+    <div class="code-box">
+      <div class="code-label">Пример результата</div>
+      <pre><code>Устройство: UGREEN NAS
+MAC-адрес: 84:47:09:12:34:56
+Локальный IP: 192.168.1.120
+Статус: IP-адрес закреплён</code></pre>
+    </div>
     <div class="placeholder">📷 Здесь позже можно добавить скриншот привязки DHCP</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
@@ -471,7 +485,14 @@ footer {
       <div class="value"><span>Трафик ноды</span><code>28967 / TCP+UDP → 192.168.1.120:28967</code></div>
     </div>
     <div class="warning">Не открывайте SSH-порт 22 в интернет. Он нужен только внутри вашей локальной сети или через защищённый VPN.</div>
-    <div class="example"><span class="example-title">Пример результата</span>Правило 1: TCP 14002 → <code>192.168.1.120</code>. Правило 2: TCP/UDP 28967 → <code>192.168.1.120</code>.</div>
+    <div class="code-box">
+      <div class="code-label">Пример результата</div>
+      <pre><code>Правило 1:
+TCP 14002 → 192.168.1.120:14002
+
+Правило 2:
+TCP/UDP 28967 → 192.168.1.120:28967</code></pre>
+    </div>
     <div class="placeholder">📷 Здесь позже можно добавить скриншот Port Forwarding</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
@@ -690,76 +711,53 @@ a1b2c3d4e5f6   registry.gitlab.com/softdds/tcloud:latest       Up 20 seconds  tr
 
   <section class="card" id="step-11">
     <h2>📌 ШАГ 11. Проверить работу</h2>
+    <p>Скопируйте одну команду ниже, вставьте её в SSH-терминал и нажмите Enter. Она проверит контейнер, внутренние процессы, порты и последние логи.</p>
     <div class="code-box">
-      <div class="code-label">Свежие логи</div>
+      <div class="code-label">Полная проверка одной командой</div>
       <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>cd /volume1/docker/triangles
-docker compose logs --tail 100</code></pre>
-    </div>
-    <div class="example"><span class="example-title">Что должно быть в логах</span>Допустимы обычные информационные сообщения запуска. Не должно быть повторяющихся сообщений <code>FATAL</code>, <code>Invalid configuration</code>, <code>operator wallet address isn't specified</code> или постоянных циклов перезапуска. Если вывод логов пустой, проверьте внутренние процессы следующей командой.</div>
-    <div class="code-box">
-      <div class="code-label">Внутренние процессы</div>
-      <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>docker exec triangles-node-1 supervisorctl status</code></pre>
-    </div>
-    <div class="code-box">
-      <div class="code-label">Правильный результат</div>
-      <pre><code>storagenode           RUNNING   pid 125, uptime 0:03:24
-storagenode-updater   RUNNING   pid 126, uptime 0:03:24</code></pre>
+      <pre><code id="fullCheckCommand">cd /volume1/docker/triangles &amp;&amp; \
+echo '=== КОНТЕЙНЕР ===' &amp;&amp; \
+docker ps --filter name=triangles-node-1 --format 'STATUS: {{.Status}} | IMAGE: {{.Image}} | NAME: {{.Names}}' &amp;&amp; \
+echo '=== ПРОЦЕССЫ ===' &amp;&amp; \
+docker exec triangles-node-1 supervisorctl status &amp;&amp; \
+echo '=== ПОРТЫ ===' &amp;&amp; \
+docker port triangles-node-1 &amp;&amp; \
+echo '=== ПОСЛЕДНИЕ ЛОГИ ===' &amp;&amp; \
+docker compose logs --tail 20 &amp;&amp; \
+echo '=== DASHBOARD ===' &amp;&amp; \
+echo 'http://192.168.1.120:14002'</code></pre>
     </div>
     <div class="code-box">
-      <div class="code-label">Проверка опубликованных портов</div>
-      <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>docker port triangles-node-1</code></pre>
-    </div>
-    <div class="code-box">
-      <div class="code-label">Правильный результат</div>
-      <pre><code>14002/tcp -> 0.0.0.0:14002
+      <div class="code-label">Что должно показываться</div>
+      <pre><code>=== КОНТЕЙНЕР ===
+STATUS: Up 5 minutes | IMAGE: registry.gitlab.com/softdds/tcloud:latest | NAME: triangles-node-1
+
+=== ПРОЦЕССЫ ===
+storagenode           RUNNING   pid 125, uptime 0:05:00
+storagenode-updater   RUNNING   pid 126, uptime 0:05:00
+
+=== ПОРТЫ ===
+14002/tcp -> 0.0.0.0:14002
 28967/tcp -> 0.0.0.0:28967
-28967/udp -> 0.0.0.0:28967</code></pre>
+28967/udp -> 0.0.0.0:28967
+
+=== ПОСЛЕДНИЕ ЛОГИ ===
+Информационные сообщения без повторяющихся FATAL и Invalid configuration
+
+=== DASHBOARD ===
+http://192.168.1.120:14002</code></pre>
     </div>
-    <p>На компьютере в локальной сети откройте Dashboard по внутреннему IP NAS:</p>
-    <div class="code-box">
-      <div class="code-label">Адрес Dashboard</div>
-      <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code id="dashboardUrl">http://192.168.1.120:14002</code></pre>
-    </div>
-    <p><code>http://localhost:14002</code> можно использовать только непосредственно на NAS или при специально настроенном SSH-туннеле. На обычном компьютере используйте внутренний IP NAS.</p>
-    <div class="success">✅ Всё работает правильно, если контейнер имеет статус <code>Up</code>, оба внутренних процесса показывают <code>RUNNING</code>, опубликованы три порта и Dashboard открывается по внутреннему IP NAS.</div>
+    <div class="success">✅ Всё работает правильно, если контейнер имеет статус <code>Up</code>, оба процесса показывают <code>RUNNING</code>, опубликованы три порта, а в логах нет повторяющихся критических ошибок.</div>
     <div class="placeholder">📷 Здесь позже можно добавить скриншоты docker ps и Dashboard</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
 
   <section class="card" id="troubleshooting">
     <h2>🛠️ Если что-то не работает</h2>
-    <div class="warning">Если установка не получилась или появились ошибки, сохраните вывод команд диагностики и обратитесь к своему вышестоящему спонсору.</div>
-    <h3>Контейнер не запускается</h3>
-    <div class="code-box">
-      <div class="code-label">Диагностика</div>
-      <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>cd /volume1/docker/triangles
-docker compose config
-docker ps -a
-docker compose logs --tail 200</code></pre>
-    </div>
-    <h3>Ошибка про wallet или e-mail</h3>
-    <p>Проверьте, что в compose и <code>config.yaml</code> записаны настоящие значения, а не пустые строки.</p>
-    <h3>Dashboard работает, но нода offline</h3>
-    <p>Сверьте внешний IPv4, значение <code>ADDRESS</code>, проброс 28967 TCP/UDP и правила брандмауэра. Внешний адрес должен быть актуальным.</p>
-    <h3>После изменения compose</h3>
-    <div class="code-box">
-      <div class="code-label">Безопасное пересоздание контейнера</div>
-      <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>cd /volume1/docker/triangles
-docker compose down
-docker compose pull
-docker compose up -d</code></pre>
-    </div>
-    <div class="warning">Не удаляйте папки <code>config</code> и <code>identity</code>. В них находятся данные и уникальная Identity ноды.</div>
-    <a class="back-top" href="#top">↑ В начало</a>
+    <div class="warning">Если что-то не работает, обратитесь к своему вышестоящему спонсору.</div>
   </section>
 
-  <footer>Инструкция для UGREEN NAS · TCloud · Docker image: registry.gitlab.com/softdds/tcloud:latest</footer>
+  <footer>Инструкция для UGREEN NAS · T-Cloud · Docker image: registry.gitlab.com/softdds/tcloud:latest</footer>
 </main>
 
 <script>
@@ -790,13 +788,27 @@ const nasUser = document.getElementById('nasUser');
 const nasIp = document.getElementById('nasIp');
 const sshCommand = document.getElementById('sshCommand');
 const sshError = document.getElementById('sshError');
-const dashboardUrl = document.getElementById('dashboardUrl');
+const fullCheckCommand = document.getElementById('fullCheckCommand');
+
+function buildFullCheckCommand(ip) {
+  return `cd /volume1/docker/triangles && \\
+echo '=== КОНТЕЙНЕР ===' && \\
+docker ps --filter name=triangles-node-1 --format 'STATUS: {{.Status}} | IMAGE: {{.Image}} | NAME: {{.Names}}' && \\
+echo '=== ПРОЦЕССЫ ===' && \\
+docker exec triangles-node-1 supervisorctl status && \\
+echo '=== ПОРТЫ ===' && \\
+docker port triangles-node-1 && \\
+echo '=== ПОСЛЕДНИЕ ЛОГИ ===' && \\
+docker compose logs --tail 20 && \\
+echo '=== DASHBOARD ===' && \\
+echo 'http://${ip}:14002'`;
+}
 
 function updateSshCommand() {
   const user = nasUser.value.trim() || 'ЛОГИН';
   const ip = nasIp.value.trim() || 'IP_NAS';
   sshCommand.innerText = `ssh ${user}@${ip}`;
-  dashboardUrl.innerText = `http://${ip}:14002`;
+  fullCheckCommand.innerText = buildFullCheckCommand(ip);
 }
 
 nasUser.addEventListener('input', updateSshCommand);
