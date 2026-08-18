@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#f2f2f7">
+<meta name="theme-color" content="#080a0d">
 <title>Установка ноды T-Cloud на NAS UGREEN</title>
 
 <style>
@@ -375,6 +375,444 @@ footer {
   .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
   .copy-btn, .back-top { display: none; }
 }
+
+/* Premium T-Cloud visual system */
+:root {
+  --blue: #d8b768;
+  --blue-dark: #f0d58f;
+  --bg: #080a0d;
+  --card: #111419;
+  --text: #f4f0e7;
+  --muted: #9da3ae;
+  --line: rgba(218, 187, 112, .17);
+  --code: #090c10;
+  --warning: rgba(218, 174, 76, .11);
+  --success: rgba(52, 211, 153, .10);
+  --gold: #d8b768;
+  --gold-light: #f4dda0;
+  --gold-deep: #8d682b;
+  --emerald: #56d5ad;
+}
+
+body {
+  color: var(--text);
+  background:
+    radial-gradient(circle at 12% 4%, rgba(178, 128, 38, .15), transparent 27rem),
+    radial-gradient(circle at 88% 19%, rgba(39, 103, 120, .13), transparent 34rem),
+    linear-gradient(155deg, #090b0f 0%, #07090c 48%, #0b0e12 100%);
+  background-attachment: fixed;
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-feature-settings: "ss01" 1, "cv02" 1;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .3;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: linear-gradient(to bottom, #000, transparent 84%);
+}
+
+::selection {
+  color: #07090c;
+  background: var(--gold-light);
+}
+
+.container {
+  width: min(100%, 1120px);
+  padding: 40px 28px 72px;
+}
+
+.card {
+  position: relative;
+  isolation: isolate;
+  padding: 40px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.038), transparent 38%),
+    linear-gradient(145deg, rgba(18,21,27,.97), rgba(12,15,19,.98));
+  box-shadow:
+    0 24px 80px rgba(0,0,0,.34),
+    inset 0 1px 0 rgba(255,255,255,.045);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 34px;
+  right: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245,217,151,.62), transparent);
+}
+
+.hero {
+  min-height: 590px;
+  padding: 76px 64px 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-color: rgba(230, 196, 116, .27);
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% -12%, rgba(222,180,83,.25), transparent 38%),
+    radial-gradient(circle at 92% 92%, rgba(32,111,121,.17), transparent 30%),
+    linear-gradient(145deg, #17191d 0%, #0b0e12 66%, #101419 100%);
+  box-shadow:
+    0 34px 110px rgba(0,0,0,.52),
+    0 0 0 1px rgba(255,255,255,.018) inset,
+    0 1px 0 rgba(255,238,190,.16) inset;
+}
+
+.hero::before {
+  left: 10%;
+  right: 10%;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+  box-shadow: 0 0 28px rgba(216,183,104,.34);
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 520px;
+  height: 520px;
+  left: 50%;
+  top: 34%;
+  border: 1px solid rgba(231,200,128,.09);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 0 72px rgba(231,200,128,.022),
+    0 0 0 144px rgba(231,200,128,.014);
+}
+
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+  color: var(--gold-light);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .24em;
+}
+
+.hero-kicker span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--emerald);
+  box-shadow: 0 0 14px rgba(86,213,173,.9);
+}
+
+h1 {
+  max-width: 970px;
+  margin-bottom: 22px;
+  color: #faf8f3;
+  font-size: clamp(44px, 7vw, 78px);
+  font-weight: 760;
+  line-height: .98;
+  letter-spacing: -.055em;
+  text-wrap: balance;
+}
+
+h1 em {
+  color: var(--gold-light);
+  font-style: normal;
+  text-shadow: 0 0 40px rgba(216,183,104,.18);
+}
+
+h2 {
+  margin-bottom: 20px;
+  color: #faf7ef;
+  font-size: clamp(23px, 3vw, 32px);
+  font-weight: 740;
+  letter-spacing: -.025em;
+}
+
+h3 {
+  margin-top: 30px;
+  color: var(--gold-light);
+  font-size: 18px;
+  letter-spacing: -.012em;
+}
+
+p { color: #c8cbd1; }
+
+b, strong { color: #f7f3ea; }
+
+.subtitle {
+  color: #aeb2bb;
+  font-size: clamp(16px, 2vw, 20px);
+  letter-spacing: .015em;
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 25px;
+}
+
+.hero-meta span {
+  padding: 8px 13px;
+  border: 1px solid rgba(225,193,117,.2);
+  border-radius: 999px;
+  color: #c9b98f;
+  background: rgba(218,183,104,.055);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+
+.computer-note {
+  margin-top: 34px;
+  border-color: rgba(228,187,89,.28) !important;
+  color: #e9ddbf;
+  background: linear-gradient(90deg, rgba(204,151,42,.11), rgba(204,151,42,.055)) !important;
+}
+
+.requirements { gap: 10px; }
+
+.requirement,
+.value {
+  border-color: rgba(255,255,255,.075);
+  background: linear-gradient(110deg, rgba(255,255,255,.035), rgba(255,255,255,.012));
+  transition: border-color .2s ease, transform .2s ease, background .2s ease;
+}
+
+.requirement {
+  padding: 19px 20px;
+  border-radius: 16px;
+}
+
+.requirement:hover,
+.value:hover {
+  border-color: rgba(218,183,104,.32);
+  background: linear-gradient(110deg, rgba(218,183,104,.075), rgba(255,255,255,.014));
+  transform: translateY(-1px);
+}
+
+.requirement strong {
+  color: #f2dfad;
+  font-size: 15px;
+}
+
+.requirement span,
+.value span,
+.field span { color: var(--muted); }
+
+.warning,
+.success,
+.example {
+  padding: 17px 18px;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  color: #d8d9dc;
+  line-height: 1.6;
+}
+
+.warning {
+  border-color: rgba(218,174,76,.24);
+  background: var(--warning);
+}
+
+.success {
+  border-color: rgba(86,213,173,.22);
+  background: var(--success);
+}
+
+.example {
+  border-color: rgba(112,173,195,.18);
+  background: rgba(78,139,158,.07);
+}
+
+.example-title { color: #b7d8df; }
+
+.sequence {
+  list-style-position: outside;
+  padding-left: 30px;
+}
+
+.sequence li {
+  margin: 9px 0;
+  padding-left: 7px;
+}
+
+.sequence li::marker {
+  color: var(--gold);
+  font-weight: 800;
+}
+
+.sequence a {
+  color: #e4e1da;
+  text-decoration-color: rgba(216,183,104,.35);
+}
+
+.sequence a:hover { color: var(--gold-light); }
+
+.action-link,
+.generate-btn {
+  border: 1px solid #e2c67e;
+  color: #11100d;
+  background: linear-gradient(135deg, #f1d995 0%, #c89b42 100%);
+  box-shadow: 0 10px 30px rgba(186,137,40,.17), inset 0 1px 0 rgba(255,255,255,.45);
+  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+
+.action-link:hover,
+.generate-btn:hover {
+  color: #080808;
+  background: linear-gradient(135deg, #fae8b4 0%, #d5ab57 100%);
+  box-shadow: 0 14px 34px rgba(201,154,61,.26);
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+}
+
+.configurator {
+  border-color: rgba(218,183,104,.2);
+  background:
+    radial-gradient(circle at 100% 0, rgba(218,183,104,.08), transparent 35%),
+    rgba(6,8,11,.58);
+}
+
+.field { color: #e8dfc9; }
+
+.field input {
+  border-color: rgba(255,255,255,.11);
+  color: #f5f2ea;
+  background: rgba(4,6,8,.68);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025);
+}
+
+.field input::placeholder { color: #686e78; }
+
+.field input:focus {
+  border-color: rgba(232,201,126,.72);
+  box-shadow: 0 0 0 3px rgba(216,183,104,.12), 0 0 24px rgba(216,183,104,.07);
+}
+
+.form-error { color: #ff8c82; }
+
+.value { padding: 15px 17px; }
+
+.value code { color: #ead7a5; }
+
+.step-list { color: #d3d4d7; }
+
+.step-list li { padding-left: 4px; }
+
+.step-list li::marker { color: var(--gold); }
+
+code {
+  color: #ead49d;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.code-box {
+  border-color: rgba(218,183,104,.16);
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, rgba(218,183,104,.026), transparent 35%),
+    #080b0f;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025), 0 12px 35px rgba(0,0,0,.16);
+}
+
+.code-label {
+  padding: 10px 100px 10px 15px;
+  border-color: rgba(218,183,104,.12);
+  color: #b9a87d;
+  background: rgba(255,255,255,.018);
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}
+
+pre {
+  padding: 20px;
+  color: #d9dde3;
+  font-size: 13px;
+}
+
+pre code { color: inherit; }
+
+.copy-btn {
+  top: 8px;
+  right: 9px;
+  border: 1px solid rgba(238,209,139,.42);
+  color: #f3ddb0;
+  background: rgba(216,183,104,.10);
+  font-weight: 750;
+  transition: color .16s ease, background .16s ease;
+}
+
+.copy-btn:hover {
+  color: #100e09;
+  background: var(--gold-light);
+}
+
+.placeholder {
+  border-color: rgba(218,183,104,.18);
+  color: #777e88;
+  background: rgba(255,255,255,.018);
+}
+
+.back-top {
+  color: #c9ae6c;
+  text-decoration: none;
+}
+
+.back-top:hover { color: var(--gold-light); }
+
+footer {
+  color: #6e747d;
+  letter-spacing: .04em;
+}
+
+@media (max-width: 900px) {
+  .container { padding: 22px; }
+  .card { padding: 32px; }
+  .hero { min-height: 520px; padding: 64px 36px 48px; }
+}
+
+@media (max-width: 560px) {
+  .container { padding: 10px; }
+  .card { padding: 22px 18px; border-radius: 20px; }
+  .hero { min-height: 500px; padding: 46px 18px 30px; }
+  .hero::after { width: 300px; height: 300px; }
+  .hero-kicker { font-size: 9px; letter-spacing: .16em; }
+  h1 { font-size: clamp(39px, 13vw, 56px); }
+  .subtitle { font-size: 15px; }
+  .hero-meta { margin-top: 19px; }
+  .computer-note { margin-top: 25px; }
+  .requirement, .value { padding: 15px; }
+  .action-link { width: 100%; text-align: center; }
+  .code-label { padding-right: 96px; font-size: 10px; }
+  pre { padding: 17px 15px; font-size: 11.5px; }
+}
+
+@media print {
+  body { color: #111; background: #fff; }
+  body::before { display: none; }
+  .card { color: #111; background: #fff; border-color: #ccc; box-shadow: none; }
+  .card::before, .hero::after { display: none; }
+  h1, h2, h3, p, b, strong, .subtitle, .requirement strong, .step-list { color: #111; }
+  .requirement, .value, .code-box, .configurator, .warning, .success, .example { color: #111; background: #fff; border-color: #ccc; }
+  pre, pre code, code { color: #111; }
+  .hero-meta { display: none; }
+}
 </style>
 </head>
 
@@ -382,13 +820,15 @@ footer {
 <main class="container" id="top">
 
   <section class="card hero">
-    <h1>Установка ноды T-Cloud на NAS UGREEN</h1>
+    <div class="hero-kicker"><span></span> PRIVATE NODE INFRASTRUCTURE</div>
+    <h1>Установка ноды <em>T-Cloud</em><br>на NAS UGREEN</h1>
     <p class="subtitle">UGOS Pro · Docker Compose · Identity · Setup · проверка запуска</p>
+    <div class="hero-meta"><span>UGREEN NAS</span><span>DOCKER</span><span>24 / 7</span></div>
     <div class="warning computer-note">❗ Выполняйте установку с компьютера, подключённого к той же сети, что и NAS. Значения в примерах нужно заменить на свои.</div>
   </section>
 
   <section class="card">
-    <h2>💻 Что подготовить на компьютере</h2>
+    <h2>Что подготовить на компьютере</h2>
     <div class="requirements">
       <div class="requirement"><strong>Компьютер</strong><span>Компьютер, с которого можно открыть панель управления роутером и веб-интерфейс NAS.</span></div>
       <div class="requirement"><strong>Доступ к роутеру</strong><span>Адрес панели управления, логин и пароль администратора роутера. Не путайте их с названием и паролем Wi-Fi. Обычно данные для входа указаны на наклейке роутера.</span></div>
@@ -399,7 +839,7 @@ footer {
   </section>
 
   <section class="card">
-    <h2>⚡ Краткая последовательность</h2>
+    <h2>Краткая последовательность</h2>
     <ol class="sequence">
       <li><a href="#step-1">Создать Storage Pool и Volume на диске для ноды.</a></li>
       <li><a href="#step-2">Закрепить постоянный локальный IP за NAS.</a></li>
@@ -417,7 +857,7 @@ footer {
   </section>
 
   <section class="card" id="step-1">
-    <h2>📌 ШАГ 1. Подготовить диск</h2>
+    <h2>ШАГ 1. Подготовить диск</h2>
     <ol class="step-list">
       <li>Откройте в UGOS Pro раздел управления хранилищем.</li>
       <li>Создайте на нужном диске отдельный Storage Pool.</li>
@@ -438,7 +878,7 @@ Volume: Volume 1
   </section>
 
   <section class="card" id="step-2">
-    <h2>📌 ШАГ 2. Закрепить локальный IP</h2>
+    <h2>ШАГ 2. Закрепить локальный IP</h2>
     <ol class="step-list">
       <li>Откройте список клиентов DHCP на роутере.</li>
       <li>Найдите UGREEN NAS по имени или MAC-адресу.</li>
@@ -457,7 +897,7 @@ MAC-адрес: 84:47:09:12:34:56
   </section>
 
   <section class="card" id="step-3">
-    <h2>📌 ШАГ 3. Проверить внешний IPv4</h2>
+    <h2>ШАГ 3. Проверить внешний IPv4</h2>
     <p>Откройте сайт 2IP с компьютера, подключённого к вашему роутеру. Сайт сразу покажет текущий внешний IP-адрес.</p>
     <a class="action-link" href="https://2ip.ru" target="_blank" rel="noopener noreferrer">Открыть 2IP.ru</a>
     <ol class="step-list">
@@ -471,7 +911,7 @@ MAC-адрес: 84:47:09:12:34:56
   </section>
 
   <section class="card" id="step-4">
-    <h2>📌 ШАГ 4. Пробросить порты</h2>
+    <h2>ШАГ 4. Пробросить порты</h2>
     <p>Названия разделов отличаются в зависимости от производителя и модели роутера. Войдите в панель управления роутером и найдите раздел с одним из названий:</p>
     <div class="example"><span class="example-title">Возможные названия раздела</span><code>Проброс портов</code>, <code>Переадресация портов</code>, <code>Port Forwarding</code>, <code>Virtual Server</code>, <code>NAT</code> или <code>Перенаправление портов</code>.</div>
     <ol class="step-list">
@@ -499,7 +939,7 @@ TCP/UDP 28967 → 192.168.1.120:28967</code></pre>
   </section>
 
   <section class="card" id="step-5">
-    <h2>📌 ШАГ 5. Включить SSH</h2>
+    <h2>ШАГ 5. Включить SSH</h2>
     <ol class="step-list">
       <li>В UGOS Pro откройте <b>Панель управления → Терминал</b>.</li>
       <li>Включите SSH.</li>
@@ -544,7 +984,7 @@ root@UGREEN-NAS:~#</code></pre>
   </section>
 
   <section class="card" id="step-6">
-    <h2>📌 ШАГ 6. Создать каталоги</h2>
+    <h2>ШАГ 6. Создать каталоги</h2>
     <p>После перехода в режим администратора создайте рабочую папку и оба каталога одной командой.</p>
     <div class="code-box">
       <div class="code-label">Создание каталогов</div>
@@ -562,7 +1002,7 @@ drwxr-xr-x 2 root root 4096 Aug 18 12:10 identity</code></pre>
   </section>
 
   <section class="card" id="step-7">
-    <h2>📌 ШАГ 7. Создать Docker Compose</h2>
+    <h2>ШАГ 7. Создать Docker Compose</h2>
     <p>Сначала подготовьте адрес кошелька, e-mail, фиксированный внешний IP и объём, который хотите выделить ноде. Заполните поля ниже — страница сама создаст готовую команду.</p>
     <div class="configurator">
       <h3>Введите данные своей ноды</h3>
@@ -630,7 +1070,7 @@ services:
   </section>
 
   <section class="card" id="step-8">
-    <h2>📌 ШАГ 8. Создать Identity</h2>
+    <h2>ШАГ 8. Создать Identity</h2>
     <p>Identity — уникальные ключи ноды. Их нельзя терять или использовать одновременно на двух устройствах.</p>
     <div class="code-box">
       <div class="code-label">Создание Identity</div>
@@ -658,7 +1098,7 @@ identity.key</code></pre>
   </section>
 
   <section class="card" id="step-9">
-    <h2>📌 ШАГ 9. Выполнить Setup</h2>
+    <h2>ШАГ 9. Выполнить Setup</h2>
     <p>Команда создаст начальную конфигурацию в папке <code>config</code>.</p>
     <div class="code-box">
       <div class="code-label">Первичная настройка</div>
@@ -688,7 +1128,7 @@ server.address: ":28967"</code></pre>
   </section>
 
   <section class="card" id="step-10">
-    <h2>📌 ШАГ 10. Запустить ноду</h2>
+    <h2>ШАГ 10. Запустить ноду</h2>
     <div class="code-box">
       <div class="code-label">Загрузка image и запуск</div>
       <button class="copy-btn" data-copy>Копировать</button>
@@ -711,7 +1151,7 @@ a1b2c3d4e5f6   registry.gitlab.com/softdds/tcloud:latest       Up 20 seconds  tr
   </section>
 
   <section class="card" id="step-11">
-    <h2>📌 ШАГ 11. Проверить работу</h2>
+    <h2>ШАГ 11. Проверить работу</h2>
     <p>Скопируйте одну команду ниже, вставьте её в SSH-терминал и нажмите Enter. Она проверит контейнер, внутренние процессы, порты и последние логи.</p>
     <div class="code-box">
       <div class="code-label">Полная проверка одной командой</div>
@@ -780,7 +1220,7 @@ storagenode-updater   RUNNING   pid 126, uptime 0:05:00
   </section>
 
   <section class="card" id="diagnostics">
-    <h2>🩺 Диагностика ноды T-Cloud</h2>
+    <h2>Диагностика ноды T-Cloud</h2>
     <p>Используйте этот раздел, если нода стала недоступна, снизился показатель Online, появились обрывы или вышестоящий спонсор попросил собрать данные для проверки.</p>
 
     <h3>1. Собрать основные данные одной командой</h3>
@@ -847,7 +1287,7 @@ storagenode-updater: RUNNING
   </section>
 
   <section class="card" id="troubleshooting">
-    <h2>🛠️ Если что-то не работает</h2>
+    <h2>Если что-то не работает</h2>
     <div class="warning">Если что-то не работает, обратитесь к своему вышестоящему спонсору.</div>
   </section>
 
