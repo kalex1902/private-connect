@@ -155,6 +155,19 @@ p { margin: 8px 0; }
 
 .sequence a:hover { color: var(--blue-dark); }
 
+.action-link {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 11px 16px;
+  border-radius: 11px;
+  color: #fff;
+  background: var(--blue);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.action-link:hover { background: var(--blue-dark); }
+
 .values {
   display: grid;
   grid-template-columns: 1fr;
@@ -326,7 +339,7 @@ footer {
       <li><a href="#step-5">Включить SSH в UGOS Pro и подключиться к NAS.</a></li>
       <li><a href="#step-6">Создать каталоги TCloud.</a></li>
       <li><a href="#step-7">Создать <code>docker-compose.yml</code>.</a></li>
-      <li><a href="#step-8">Создать и авторизовать Identity.</a></li>
+      <li><a href="#step-8">Создать Identity.</a></li>
       <li><a href="#step-9">Выполнить первичную настройку Setup.</a></li>
       <li><a href="#step-10">Запустить контейнер.</a></li>
       <li><a href="#step-11">Проверить контейнер, процессы, порты и Dashboard.</a></li>
@@ -361,18 +374,29 @@ footer {
 
   <section class="card" id="step-3">
     <h2>📌 ШАГ 3. Проверить внешний IPv4</h2>
-    <p>Для входящих соединений ноде нужен доступный извне IPv4. Сравните адрес в статусе WAN роутера с адресом, который показывает сервис проверки IP.</p>
+    <p>Откройте сайт 2IP с компьютера, подключённого к вашему роутеру. Сайт сразу покажет текущий внешний IP-адрес.</p>
+    <a class="action-link" href="https://2ip.ru" target="_blank" rel="noopener noreferrer">Открыть 2IP.ru</a>
     <ol class="step-list">
-      <li>Если адреса совпадают — переходите к пробросу портов.</li>
-      <li>Если WAN-адрес находится в диапазоне <code>100.64.0.0/10</code>, <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> или <code>192.168.0.0/16</code>, запросите у провайдера публичный статический IPv4.</li>
+      <li>Запишите IP-адрес, который показал сайт.</li>
+      <li>Сравните его с фиксированным внешним IPv4, который сообщил интернет-провайдер или который настроен через VPS.</li>
+      <li>Если вы не знаете выданный адрес, запишите показание 2IP, выключите роутер из розетки, снова включите его и после восстановления интернета повторите проверку.</li>
+      <li>Если адрес не изменился, вероятнее всего используется ваш фиксированный внешний IP. Если остаются сомнения — уточните адрес у провайдера.</li>
     </ol>
-    <div class="example"><span class="example-title">Пример результата</span>WAN IPv4 на роутере: <code>203.0.113.25</code>. Этот же адрес виден снаружи.</div>
+    <div class="example"><span class="example-title">Пример результата</span>До перезагрузки: <code>203.0.113.25</code><br>После перезагрузки: <code>203.0.113.25</code><br>Адрес совпадает с выданным провайдером.</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
 
   <section class="card" id="step-4">
     <h2>📌 ШАГ 4. Пробросить порты</h2>
-    <p>Создайте на роутере правила перенаправления на локальный IP NAS.</p>
+    <p>Названия разделов отличаются в зависимости от производителя и модели роутера. Войдите в панель управления роутером и найдите раздел с одним из названий:</p>
+    <div class="example"><span class="example-title">Возможные названия раздела</span><code>Проброс портов</code>, <code>Переадресация портов</code>, <code>Port Forwarding</code>, <code>Virtual Server</code>, <code>NAT</code> или <code>Перенаправление портов</code>.</div>
+    <ol class="step-list">
+      <li>Если раздел найти не получается, введите в поиске модель роутера и фразу «проброс портов».</li>
+      <li>В качестве внутреннего IP во всех правилах укажите закреплённый адрес UGREEN NAS.</li>
+      <li>Для порта 14002 создайте правило TCP.</li>
+      <li>Для порта 28967 разрешите TCP и UDP. Если роутер не позволяет выбрать оба протокола сразу, создайте два отдельных правила.</li>
+      <li>Сохраните и примените настройки роутера.</li>
+    </ol>
     <div class="values">
       <div class="value"><span>Dashboard</span><code>14002 / TCP → 192.168.1.120:14002</code></div>
       <div class="value"><span>Трафик ноды</span><code>28967 / TCP+UDP → 192.168.1.120:28967</code></div>
@@ -387,32 +411,48 @@ footer {
     <h2>📌 ШАГ 5. Включить SSH</h2>
     <ol class="step-list">
       <li>В UGOS Pro откройте <b>Панель управления → Терминал</b>.</li>
-      <li>Включите SSH и оставьте порт 22 доступным только в локальной сети.</li>
-      <li>На компьютере откройте Терминал и подключитесь к NAS.</li>
+      <li>Включите SSH.</li>
+      <li>Включите постоянную доступность SSH: выберите вариант <b>Всегда включено</b> или отключите автоматическое выключение — название зависит от версии UGOS Pro.</li>
+      <li>Оставьте порт 22 доступным только в локальной сети. Не пробрасывайте его в интернет.</li>
+      <li>На компьютере откройте Terminal, PowerShell или Windows Terminal и подключитесь к NAS.</li>
     </ol>
     <div class="code-box">
       <div class="code-label">Подключение по SSH</div>
       <button class="copy-btn" data-copy>Копировать</button>
       <pre><code>ssh ivan@192.168.1.120</code></pre>
     </div>
-    <div class="example"><span class="example-title">Пример результата</span>После ввода пароля появляется приглашение командной строки вида <code>ivan@UGREEN-NAS:~$</code>.</div>
+    <p>Введите пароль пользователя NAS. После подключения получите права администратора:</p>
+    <div class="code-box">
+      <div class="code-label">Переход в режим администратора</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>sudo -i</code></pre>
+    </div>
+    <p>Снова введите пароль пользователя NAS.</p>
+    <div class="code-box">
+      <div class="code-label">Пример результата</div>
+      <pre><code>ivan@UGREEN-NAS:~$ sudo -i
+Password:
+root@UGREEN-NAS:~#</code></pre>
+    </div>
     <div class="placeholder">📷 Здесь позже можно добавить скриншот включения SSH</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
 
   <section class="card" id="step-6">
     <h2>📌 ШАГ 6. Создать каталоги</h2>
-    <p>Создайте рабочую папку, а внутри неё — каталоги для конфигурации и Identity.</p>
+    <p>После перехода в режим администратора создайте рабочую папку и оба каталога одной командой.</p>
     <div class="code-box">
       <div class="code-label">Создание каталогов</div>
       <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>sudo mkdir -p /volume1/docker/triangles/config
-sudo mkdir -p /volume1/docker/triangles/identity
-cd /volume1/docker/triangles
-pwd
-ls -la</code></pre>
+      <pre><code>mkdir -p /volume1/docker/triangles/config /volume1/docker/triangles/identity && cd /volume1/docker/triangles && pwd && ls -la</code></pre>
     </div>
-    <div class="example"><span class="example-title">Пример результата</span><code>pwd</code> выводит <code>/volume1/docker/triangles</code>, а <code>ls -la</code> показывает папки <code>config</code> и <code>identity</code>.</div>
+    <div class="code-box">
+      <div class="code-label">Пример результата</div>
+      <pre><code>/volume1/docker/triangles
+total 8
+drwxr-xr-x 2 root root 4096 Aug 18 12:10 config
+drwxr-xr-x 2 root root 4096 Aug 18 12:10 identity</code></pre>
+    </div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
 
@@ -445,7 +485,22 @@ ls -la</code></pre>
       <pre><code>cd /volume1/docker/triangles
 docker compose config</code></pre>
     </div>
-    <div class="example"><span class="example-title">Пример результата</span>Команда завершается без ошибок. В итоговом конфиге видны image <code>registry.gitlab.com/softdds/tcloud:latest</code>, три порта и две подключённые папки.</div>
+    <div class="code-box">
+      <div class="code-label">Пример результата</div>
+      <pre><code>name: triangles
+services:
+  node:
+    image: registry.gitlab.com/softdds/tcloud:latest
+    environment:
+      ADDRESS: 203.0.113.25:28967
+      EMAIL: node@example.com
+      STORAGE: 16000GB
+    ports:
+      - 14002:14002/tcp
+      - 28967:28967/tcp
+      - 28967:28967/udp</code></pre>
+    </div>
+    <div class="success">✅ Если команда <code>docker compose config</code> завершилась без ошибки и показывает ваши значения, файл создан правильно.</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
 
@@ -460,21 +515,19 @@ docker compose config</code></pre>
   registry.gitlab.com/softdds/tcloud:latest \
   identity create storagenode</code></pre>
     </div>
-    <p>Затем авторизуйте Identity токеном, полученным для новой ноды:</p>
-    <div class="code-box">
-      <div class="code-label">Авторизация Identity</div>
-      <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>docker run --rm -it \
-  --mount type=bind,source=/volume1/docker/triangles/identity,destination=/app/identity \
-  registry.gitlab.com/softdds/tcloud:latest \
-  identity authorize storagenode ВАШ_ТОКЕН_АВТОРИЗАЦИИ</code></pre>
-    </div>
     <div class="code-box">
       <div class="code-label">Проверка файлов Identity</div>
       <button class="copy-btn" data-copy>Копировать</button>
       <pre><code>ls -la /volume1/docker/triangles/identity/storagenode</code></pre>
     </div>
-    <div class="example"><span class="example-title">Пример результата</span>В папке <code>identity/storagenode</code> находятся файлы сертификатов и ключей. Ошибок авторизации нет.</div>
+    <div class="code-box">
+      <div class="code-label">Пример результата</div>
+      <pre><code>ca.cert
+ca.key
+identity.cert
+identity.key</code></pre>
+    </div>
+    <div class="success">✅ В папке <code>identity/storagenode</code> должны находиться файлы сертификатов и ключей.</div>
     <div class="warning">Сделайте резервную копию папки <code>identity</code> и храните её отдельно от NAS.</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
@@ -497,7 +550,15 @@ docker compose config</code></pre>
 grep -nE 'operator.email|operator.wallet:|contact.external-address|server.address' \
   /volume1/docker/triangles/config/config.yaml</code></pre>
     </div>
-    <div class="example"><span class="example-title">Пример результата</span>Появился файл <code>config.yaml</code>. В нём указаны e-mail, кошелёк и внешний адрес <code>203.0.113.25:28967</code>.</div>
+    <div class="code-box">
+      <div class="code-label">Пример результата</div>
+      <pre><code>config.yaml
+operator.email: "node@example.com"
+operator.wallet: "0x1234567890abcdef1234567890abcdef1234ABCD"
+contact.external-address: "203.0.113.25:28967"
+server.address: ":28967"</code></pre>
+    </div>
+    <div class="success">✅ В папке <code>config</code> появился <code>config.yaml</code>, а в нём указаны ваши e-mail, кошелёк и внешний адрес.</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
 
@@ -515,7 +576,12 @@ docker compose up -d</code></pre>
       <button class="copy-btn" data-copy>Копировать</button>
       <pre><code>docker ps</code></pre>
     </div>
-    <div class="example"><span class="example-title">Пример результата</span>Контейнер <code>triangles-node-1</code> имеет статус <code>Up</code>, а в колонке IMAGE указано <code>registry.gitlab.com/softdds/tcloud:latest</code>.</div>
+    <div class="code-box">
+      <div class="code-label">Пример результата</div>
+      <pre><code>CONTAINER ID   IMAGE                                           STATUS         NAMES
+a1b2c3d4e5f6   registry.gitlab.com/softdds/tcloud:latest       Up 20 seconds  triangles-node-1</code></pre>
+    </div>
+    <div class="success">✅ В колонке IMAGE должен быть указан актуальный image, а в колонке STATUS — состояние <code>Up</code>.</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
 
@@ -527,30 +593,43 @@ docker compose up -d</code></pre>
       <pre><code>cd /volume1/docker/triangles
 docker compose logs --tail 100</code></pre>
     </div>
+    <div class="example"><span class="example-title">Что должно быть в логах</span>Допустимы обычные информационные сообщения запуска. Не должно быть повторяющихся сообщений <code>FATAL</code>, <code>Invalid configuration</code>, <code>operator wallet address isn't specified</code> или постоянных циклов перезапуска. Если вывод логов пустой, проверьте внутренние процессы следующей командой.</div>
     <div class="code-box">
       <div class="code-label">Внутренние процессы</div>
       <button class="copy-btn" data-copy>Копировать</button>
       <pre><code>docker exec triangles-node-1 supervisorctl status</code></pre>
     </div>
     <div class="code-box">
+      <div class="code-label">Правильный результат</div>
+      <pre><code>storagenode           RUNNING   pid 125, uptime 0:03:24
+storagenode-updater   RUNNING   pid 126, uptime 0:03:24</code></pre>
+    </div>
+    <div class="code-box">
       <div class="code-label">Проверка опубликованных портов</div>
       <button class="copy-btn" data-copy>Копировать</button>
       <pre><code>docker port triangles-node-1</code></pre>
     </div>
-    <p>Откройте Dashboard в локальной сети:</p>
+    <div class="code-box">
+      <div class="code-label">Правильный результат</div>
+      <pre><code>14002/tcp -> 0.0.0.0:14002
+28967/tcp -> 0.0.0.0:28967
+28967/udp -> 0.0.0.0:28967</code></pre>
+    </div>
+    <p>На компьютере в локальной сети откройте Dashboard по внутреннему IP NAS:</p>
     <div class="code-box">
       <div class="code-label">Адрес Dashboard</div>
       <button class="copy-btn" data-copy>Копировать</button>
       <pre><code>http://192.168.1.120:14002</code></pre>
     </div>
-    <div class="example"><span class="example-title">Пример результата</span><code>storagenode</code> и <code>storagenode-updater</code> имеют состояние <code>RUNNING</code>. Dashboard открывается, а порт 28967 доступен извне.</div>
-    <div class="success">✅ Если контейнер работает, процессы имеют статус RUNNING, Dashboard открывается и входящий порт доступен — установка завершена.</div>
+    <p><code>http://localhost:14002</code> можно использовать только непосредственно на NAS или при специально настроенном SSH-туннеле. На обычном компьютере используйте внутренний IP NAS.</p>
+    <div class="success">✅ Всё работает правильно, если контейнер имеет статус <code>Up</code>, оба внутренних процесса показывают <code>RUNNING</code>, опубликованы три порта и Dashboard открывается по внутреннему IP NAS.</div>
     <div class="placeholder">📷 Здесь позже можно добавить скриншоты docker ps и Dashboard</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
 
   <section class="card" id="troubleshooting">
     <h2>🛠️ Если что-то не работает</h2>
+    <div class="warning">Если установка не получилась или появились ошибки, сохраните вывод команд диагностики и обратитесь к своему вышестоящему спонсору.</div>
     <h3>Контейнер не запускается</h3>
     <div class="code-box">
       <div class="code-label">Диагностика</div>
