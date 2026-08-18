@@ -34,7 +34,7 @@ body {
 }
 
 .container {
-  width: min(100%, 1120px);
+  width: min(100%, 920px);
   margin: auto;
   padding: 28px;
 }
@@ -101,12 +101,16 @@ p { margin: 8px 0; }
 
 .requirements {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 12px;
   margin-top: 16px;
 }
 
 .requirement {
+  display: grid;
+  grid-template-columns: minmax(180px, .35fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
   padding: 16px;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -115,7 +119,7 @@ p { margin: 8px 0; }
 
 .requirement strong {
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 0;
 }
 
 .requirement span {
@@ -124,14 +128,11 @@ p { margin: 8px 0; }
 }
 
 .overview-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(330px, .65fr);
-  gap: 20px;
-  align-items: start;
+  display: block;
 }
 
 .overview-grid .card {
-  height: 100%;
+  height: auto;
 }
 
 .chips {
@@ -203,11 +204,15 @@ p { margin: 8px 0; }
 
 .values {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 10px;
 }
 
 .value {
+  display: grid;
+  grid-template-columns: minmax(180px, .35fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
   min-width: 0;
   padding: 12px;
   border: 1px solid var(--line);
@@ -217,7 +222,7 @@ p { margin: 8px 0; }
 
 .value span {
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 0;
   color: var(--muted);
   font-size: 12px;
 }
@@ -317,8 +322,6 @@ footer {
 
 @media (max-width: 900px) {
   .container { padding: 18px; }
-  .overview-grid { grid-template-columns: 1fr; gap: 0; }
-  .requirements, .values { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 560px) {
@@ -327,6 +330,8 @@ footer {
   .hero { padding: 28px 18px; }
   .computer-note { text-align: left; }
   .toc, .values, .requirements { grid-template-columns: 1fr; }
+  .requirement, .value { display: block; }
+  .requirement strong, .value span { margin-bottom: 4px; }
   pre { font-size: 12px; }
 }
 
