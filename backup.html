@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07101f">
+  <meta name="description" content="Пошаговая инструкция T-Cloud Backup для Windows и Linux: запуск, вход, выбор папки и проверка синхронизации.">
+  <link rel="icon" href="backup/assets/favicon.svg" type="image/svg+xml">
+  <title>T-Cloud Backup — установка на Windows и Linux</title>
+  <style>
+    :root{--bg:#040812;--panel:#0a1425;--panel2:#0d1930;--text:#f4f7fb;--muted:#aab7ca;--line:rgba(174,200,255,.15);--violet:#8a5cff;--cyan:#12c6ff;--green:#4ee3a1;--amber:#ffd166;--red:#ff8080;--shadow:0 22px 70px rgba(0,0,0,.34)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);background:radial-gradient(circle at 15% 8%,rgba(138,92,255,.17),transparent 32rem),radial-gradient(circle at 88% 2%,rgba(18,198,255,.12),transparent 26rem),linear-gradient(#07101f,#040812 72%);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}a{color:#8bdfff}code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.wrap{width:min(1120px,calc(100% - 34px));margin:auto}.topbar{position:sticky;top:0;z-index:20;border-bottom:1px solid var(--line);background:rgba(4,8,18,.78);backdrop-filter:blur(18px)}.nav{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:70px}.brand{display:flex;align-items:center;gap:11px;color:#fff;text-decoration:none}.brand img{width:42px;height:42px;border-radius:12px}.brand strong{display:block;line-height:1.05}.brand small{color:var(--muted)}.navlinks{display:flex;gap:18px;font-size:14px}.navlinks a{text-decoration:none;color:#ccd7e7}.hero{position:relative;overflow:hidden;margin:34px auto 22px;padding:64px clamp(24px,6vw,72px);border:1px solid rgba(147,172,255,.22);border-radius:30px;background:linear-gradient(145deg,rgba(13,25,48,.92),rgba(6,13,27,.98));box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;right:-120px;top:-170px;width:430px;height:430px;border:1px solid rgba(18,198,255,.16);border-radius:50%;box-shadow:0 0 0 58px rgba(138,92,255,.035),0 0 0 116px rgba(18,198,255,.025)}.hero-logo{width:82px;height:82px;border-radius:22px;box-shadow:0 16px 55px rgba(91,85,255,.25)}.eyebrow{margin:24px 0 8px;color:#aadaff;font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}.hero h1{position:relative;z-index:1;max-width:780px;margin:0;font-size:clamp(42px,8vw,82px);line-height:.97;letter-spacing:-.055em}.hero h1 span{background:linear-gradient(110deg,#bca4ff,#6fdcff);background-clip:text;color:transparent}.lead{position:relative;z-index:1;max-width:710px;margin:25px 0 0;color:#c0ccdc;font-size:clamp(17px,2vw,21px)}.chips{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}.chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.035);color:#d8e3f2;font-size:13px}.notice{margin:22px 0;padding:17px 18px;border:1px solid rgba(255,209,102,.25);border-radius:16px;background:rgba(255,209,102,.07);color:#f5dfae}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{margin:18px 0;padding:clamp(23px,4vw,40px);border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,rgba(13,25,48,.84),rgba(8,16,31,.94));box-shadow:var(--shadow)}.card h2{margin:0 0 13px;font-size:clamp(25px,4vw,38px);line-height:1.15;letter-spacing:-.025em}.card h3{margin:28px 0 8px;color:#d4c7ff}.muted{color:var(--muted)}.steps{counter-reset:step;display:grid;gap:14px;margin-top:22px}.step{position:relative;padding:18px 18px 18px 64px;border:1px solid rgba(174,200,255,.12);border-radius:17px;background:rgba(255,255,255,.025)}.step:before{counter-increment:step;content:counter(step);position:absolute;left:17px;top:17px;width:31px;height:31px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,var(--violet),var(--cyan));font-weight:850}.step strong{display:block;margin-bottom:3px}.codebox{position:relative;margin:13px 0;border:1px solid rgba(98,213,255,.16);border-radius:15px;overflow:hidden;background:#050b15}.codehead{padding:8px 96px 8px 13px;border-bottom:1px solid var(--line);color:#92a7c2;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.copy{position:absolute;right:8px;top:7px;padding:6px 9px;border:1px solid rgba(139,223,255,.28);border-radius:9px;color:#c8f2ff;background:rgba(18,198,255,.08);cursor:pointer}.copy:hover{background:rgba(18,198,255,.18)}pre{margin:0;padding:17px;overflow:auto;color:#d9e6f5;font-size:13px;line-height:1.62;white-space:pre-wrap}.ok,.warn,.danger{margin:14px 0;padding:14px 15px;border-radius:13px}.ok{border:1px solid rgba(78,227,161,.23);background:rgba(78,227,161,.07)}.warn{border:1px solid rgba(255,209,102,.23);background:rgba(255,209,102,.07)}.danger{border:1px solid rgba(255,128,128,.22);background:rgba(255,128,128,.07)}.mock{overflow:hidden;border:1px solid rgba(174,200,255,.15);border-radius:18px;background:#060b14}.mockbar{display:flex;align-items:center;gap:7px;padding:10px 13px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.035)}.dot{width:9px;height:9px;border-radius:50%;background:#61718a}.mockbody{padding:21px}.mockbody .line{height:9px;margin:10px 0;border-radius:9px;background:linear-gradient(90deg,rgba(188,164,255,.55),rgba(111,220,255,.23))}.mockbody .line:nth-child(2){width:72%}.mockbody .line:nth-child(3){width:46%}.checklist{padding-left:1.2em}.checklist li{margin:8px 0}.toc{display:flex;flex-wrap:wrap;gap:10px}.toc a{padding:10px 13px;border:1px solid var(--line);border-radius:12px;text-decoration:none;background:rgba(255,255,255,.025)}table{width:100%;border-collapse:collapse}th,td{padding:13px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}th{color:#d9e5f5}.tag{white-space:nowrap;color:#77edbc;font-size:12px;font-weight:800}.footer{padding:36px 0 56px;text-align:center;color:#77879d;font-size:14px}@media(max-width:760px){.navlinks{display:none}.grid{grid-template-columns:1fr}.hero{margin-top:18px;padding:38px 23px}.hero:after{opacity:.55}.card{border-radius:20px}.step{padding-left:57px}th,td{display:block;padding:9px 0}th{padding-top:18px;border:0}.tag{white-space:normal}}
+  </style>
+</head>
+<body>
+<header class="topbar"><div class="wrap nav"><a class="brand" href="#top"><img src="backup/assets/triangels-logo.png" alt="Логотип TriAngels"><span><strong>TriAngels</strong><small>T-Cloud Backup</small></span></a><nav class="navlinks"><a href="#windows">Windows</a><a href="#linux">Linux</a><a href="#daily">Каждый день</a><a href="#help">Помощь</a></nav></div></header>
+<main id="top" class="wrap">
+  <section class="hero">
+    <img class="hero-logo" src="backup/assets/triangels-logo.png" alt="TriAngels">
+    <p class="eyebrow">Понятно с первого раза</p>
+    <h1>Резервные копии с <span>T-Cloud</span></h1>
+    <p class="lead">Установка T-Cloud Backup, вход в аккаунт, добавление папки и проверка синхронизации на Windows и Linux.</p>
+    <div class="chips"><span class="chip">Windows 10/11</span><span class="chip">Ubuntu 24.04</span><span class="chip">Графический интерфейс</span><span class="chip">Консоль</span></div>
+  </section>
+
+  <div class="notice"><strong>Важно:</strong> публичная ссылка на установочный файл не подтверждена. Используйте только архив, который вы получили напрямую от администратора T-Cloud. Не скачивайте программу со случайных сайтов.</div>
+
+  <section class="card">
+    <h2>Быстрый маршрут</h2>
+    <p class="muted">Если устанавливаете впервые, идите по порядку. На повторном запуске обычно достаточно открыть программу и проверить статус.</p>
+    <div class="toc"><a href="#before">1. Подготовиться</a><a href="#windows">2A. Windows</a><a href="#linux">2B. Linux</a><a href="#first-sync">3. Первая копия</a><a href="#daily">4. Проверка</a></div>
+  </section>
+
+  <section id="before" class="card">
+    <h2>Что подготовить</h2>
+    <div class="grid">
+      <div><ul class="checklist"><li>Установочный архив для вашей системы.</li><li>Логин и пароль T-Cloud.</li><li>Папку, которую нужно копировать.</li><li>Стабильный интернет без VPN-фильтрации.</li></ul></div>
+      <div class="mock"><div class="mockbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div><div class="mockbody"><strong>Хороший выбор для начала</strong><div class="line"></div><div class="line"></div><div class="line"></div><p class="muted">Создайте тестовую папку с 2–3 небольшими файлами. После проверки добавьте основную папку.</p></div></div>
+    </div>
+    <div class="warn">Не выбирайте целиком системный диск, папки Windows/Linux, каталоги программ, ключи SSH или хранилища паролей.</div>
+  </section>
+
+  <section id="windows" class="card">
+    <h2>Windows</h2>
+    <p class="muted">Подходит для Windows 10 и 11. Имена кнопок в конкретной сборке могут немного отличаться; консольные команды ниже взяты из меню самого клиента.</p>
+    <div class="steps">
+      <div class="step"><strong>Распакуйте архив</strong>Создайте постоянную папку, например <code>C:\TCloudBackup</code>, и полностью распакуйте туда архив. Не запускайте программу прямо из ZIP.</div>
+      <div class="step"><strong>Проверьте источник</strong>В папке должен находиться исполняемый файл клиента. В использовавшейся сборке он называется <code>Daotta.Desktop.exe</code>. Если имя другое, не переименовывайте файл — уточните название у администратора.</div>
+      <div class="step"><strong>Запустите программу</strong>Дважды щёлкните по исполняемому файлу. Если интерфейс не открылся автоматически, оставьте программу запущенной и откройте в браузере <a href="http://localhost:5000" target="_blank" rel="noopener">http://localhost:5000</a>.</div>
+      <div class="step"><strong>Войдите в T-Cloud</strong>Введите логин и пароль, полученные от администратора. Пароль не нужно отправлять кому-либо в сообщениях или вставлять в команды.</div>
+    </div>
+    <h3>Надёжный вариант через консоль</h3>
+    <p>Откройте PowerShell в папке программы: кликните по адресной строке Проводника, напишите <code>powershell</code> и нажмите Enter.</p>
+    <div class="codebox"><div class="codehead">Запуск консоли</div><button class="copy">Копировать</button><pre><code>.\Daotta.Desktop.exe console</code></pre></div>
+    <div class="codebox"><div class="codehead">Команды внутри T-Cloud</div><button class="copy">Копировать</button><pre><code>login
+add "C:\Users\ИМЯ_ПОЛЬЗОВАТЕЛЯ\Documents"
+list</code></pre></div>
+    <div class="ok">Правильный результат: после <code>login</code> нет сообщения об ошибке, а <code>list</code> показывает добавленную папку.</div>
+  </section>
+
+  <section id="linux" class="card">
+    <h2>Linux</h2>
+    <p class="muted">Ниже — подтверждённый сценарий для Ubuntu 24.04. На другом дистрибутиве название пакета ICU может отличаться.</p>
+    <div class="steps">
+      <div class="step"><strong>Распакуйте архив</strong>Переместите распакованную папку в постоянное место. В примере используется <code>~/tcloud-backup</code>.</div>
+      <div class="step"><strong>Установите зависимости</strong>Для проверенной сборки на Ubuntu 24.04 нужны локали и ICU. Без них приложение может завершиться с <code>System.Globalization</code> или <code>Aborted (core dumped)</code>.</div>
+    </div>
+    <div class="codebox"><div class="codehead">Ubuntu 24.04</div><button class="copy">Копировать</button><pre><code>sudo apt update
+sudo apt install -y locales libicu74
+sudo locale-gen en_US.UTF-8</code></pre></div>
+    <div class="codebox"><div class="codehead">Разрешить запуск и открыть консоль</div><button class="copy">Копировать</button><pre><code>cd ~/tcloud-backup
+chmod +x Daotta.Desktop
+./Daotta.Desktop console</code></pre></div>
+    <p>Когда появится заголовок <code>Daotta console mode</code> и приглашение <code>&gt;</code>, выполните:</p>
+    <div class="codebox"><div class="codehead">Первый вход и папка</div><button class="copy">Копировать</button><pre><code>login
+add "/home/ИМЯ_ПОЛЬЗОВАТЕЛЯ/Documents"
+list</code></pre></div>
+    <div class="warn">Замените путь в примере на настоящий. Сначала проверьте его командой <code>ls -la "/ваш/путь"</code>. Не копируйте пример без замены имени пользователя.</div>
+    <h3>Графический интерфейс</h3>
+    <p>Если сборка запускается в графическом режиме, откройте программу обычным способом или без параметра <code>console</code>, затем перейдите на <a href="http://localhost:5000" target="_blank" rel="noopener">http://localhost:5000</a>. Если страница не открывается, вернитесь к консольному варианту — он лучше показывает причину ошибки.</p>
+  </section>
+
+  <section id="first-sync" class="card">
+    <h2>Первая резервная копия</h2>
+    <div class="grid">
+      <div><div class="steps"><div class="step"><strong>Добавьте тестовую папку</strong>Используйте <code>add &lt;path&gt;</code>. Путь с пробелами обязательно заключайте в кавычки.</div><div class="step"><strong>Убедитесь, что папка сохранена</strong>Команда <code>list</code> должна показать её в списке.</div><div class="step"><strong>Проверьте файлы и состояние</strong>Используйте команды ниже. Первая загрузка может занять время.</div></div></div>
+      <div><div class="codebox"><div class="codehead">Проверка</div><button class="copy">Копировать</button><pre><code>list
+files
+dashboard
+watch</code></pre></div><p class="muted"><code>watch</code> оставляет наблюдение включённым. Для выхода из него нажмите <code>Ctrl+C</code>. Команда <code>exit</code> закрывает консоль клиента.</p></div>
+    </div>
+    <div class="ok"><strong>Копирование работает, если:</strong> папка видна в <code>list</code>, файлы отображаются без повторяющейся ошибки, а статус не застывает на одном и том же сбое.</div>
+  </section>
+
+  <section id="daily" class="card">
+    <h2>Как пользоваться каждый день</h2>
+    <table><tr><th>Ситуация</th><th>Что делать</th><th></th></tr><tr><td>Добавили новые файлы</td><td>Оставьте клиент запущенным. Проверьте состояние через <code>dashboard</code> или <code>watch</code>.</td><td class="tag">ОБЫЧНО</td></tr><tr><td>Перезагрузили компьютер</td><td>Снова запустите клиент и выполните <code>list</code>. Папка должна остаться в настройках.</td><td class="tag">ПРОВЕРИТЬ</td></tr><tr><td>Папку переместили</td><td>Старый путь больше не существует. Добавьте новый путь только после проверки его содержимого.</td><td class="tag">ВНИМАНИЕ</td></tr><tr><td>Нужен файл из копии</td><td>Не удаляйте локальные данные. Сначала уточните у администратора утверждённый способ восстановления.</td><td class="tag">БЕЗОПАСНО</td></tr></table>
+  </section>
+
+  <section id="help" class="card">
+    <h2>Если что-то не работает</h2>
+    <h3>Страница <code>localhost:5000</code> не открывается</h3><p>Проверьте, что программа всё ещё запущена. Запустите консольный режим и прочитайте первую ошибку. Не меняйте порт наугад.</p>
+    <h3><code>Permission denied</code> в Linux</h3><div class="codebox"><div class="codehead">Исправить право запуска</div><button class="copy">Копировать</button><pre><code>chmod +x Daotta.Desktop</code></pre></div>
+    <h3><code>System.Globalization</code> или <code>Aborted (core dumped)</code></h3><p>На Ubuntu 24.04 установите <code>locales</code> и <code>libicu74</code>, затем повторите запуск.</p>
+    <h3><code>Name or service not known</code></h3><p>Это ошибка DNS или адреса API, а не доказательство неправильного пароля. Проверьте интернет и передайте администратору полный текст ошибки.</p>
+    <h3><code>HttpClient.Timeout</code> примерно через 100 секунд</h3><p>Клиент не получил ответ сервера вовремя. Не вводите пароль снова много раз. Сохраните сообщение и обратитесь к администратору: в прошлой диагностике такой случай оказался сетевой проблемой на пути к API.</p>
+    <h3>Что отправить в поддержку</h3><ul class="checklist"><li>Windows или дистрибутив и версия Linux.</li><li>Название файла сборки и дата получения.</li><li>Точная команда, после которой возникла ошибка.</li><li>Полный текст ошибки без пароля и токена.</li></ul>
+    <div class="danger">Никому не отправляйте пароль, access token, содержимое хранилища паролей или приватные ключи — даже вместе со скриншотом.</div>
+  </section>
+
+  <section class="card">
+    <h2>Что проверено</h2>
+    <ul class="checklist"><li>Команды клиента: <code>login</code>, <code>add &lt;path&gt;</code>, <code>list</code>, <code>files</code>, <code>dashboard</code>, <code>watch</code>, <code>exit</code>.</li><li>Запуск Linux-клиента: <code>./Daotta.Desktop console</code>.</li><li>Зависимости Ubuntu 24.04: <code>locales</code> и <code>libicu74</code>.</li><li>Локальный веб-интерфейс: <code>http://localhost:5000</code>.</li><li>Синтаксис команд Windows PowerShell и Linux shell проверен. Сам исполняемый файл в этой рабочей среде недоступен, поэтому поведение конкретной новой сборки необходимо сверять по её экрану.</li></ul>
+  </section>
+</main>
+<footer class="footer">TriAngels · T-Cloud Backup · официальный визуальный стиль: <a href="https://www.t-guard.net/">t-guard.net</a></footer>
+<script>
+document.querySelectorAll('.copy').forEach(button=>button.addEventListener('click',async()=>{const text=button.nextElementSibling.innerText;try{await navigator.clipboard.writeText(text);button.textContent='Скопировано';setTimeout(()=>button.textContent='Копировать',1400)}catch(e){button.textContent='Выделите вручную'}}));
+</script>
+</body>
+</html>
