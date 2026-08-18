@@ -168,6 +168,74 @@ p { margin: 8px 0; }
 
 .action-link:hover { background: var(--blue-dark); }
 
+.configurator {
+  margin: 16px 0;
+  padding: 20px;
+  border: 1px solid #dbe7fb;
+  border-radius: 16px;
+  background: #f5f9ff;
+}
+
+.configurator h3 { margin-top: 0; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.field {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.field span {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.field input {
+  width: 100%;
+  margin-top: 7px;
+  padding: 12px 13px;
+  border: 1px solid #cfd8e6;
+  border-radius: 10px;
+  color: var(--text);
+  background: #fff;
+  font: inherit;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0,122,255,.12);
+}
+
+.generate-btn {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 11px;
+  color: #fff;
+  background: var(--blue);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.generate-btn:active { transform: scale(.98); }
+
+.form-error {
+  min-height: 20px;
+  margin-top: 9px;
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .values {
   display: grid;
   grid-template-columns: 1fr;
@@ -297,6 +365,7 @@ footer {
   .requirements, .values { grid-template-columns: 1fr; }
   .requirement, .value { display: block; }
   .requirement strong, .value span { margin-bottom: 4px; }
+  .form-grid { grid-template-columns: 1fr; }
   pre { font-size: 12px; }
 }
 
@@ -416,10 +485,24 @@ footer {
       <li>Оставьте порт 22 доступным только в локальной сети. Не пробрасывайте его в интернет.</li>
       <li>На компьютере откройте Terminal, PowerShell или Windows Terminal и подключитесь к NAS.</li>
     </ol>
+    <div class="configurator">
+      <h3>Подготовьте команду подключения</h3>
+      <div class="form-grid">
+        <label class="field">Логин пользователя NAS
+          <input id="nasUser" type="text" value="ivan" autocomplete="username">
+          <span>Например: ivan</span>
+        </label>
+        <label class="field">Локальный IP NAS
+          <input id="nasIp" type="text" value="192.168.1.120" inputmode="decimal">
+          <span>Адрес, закреплённый на шаге 2</span>
+        </label>
+      </div>
+      <button class="generate-btn" id="copySshCommand" type="button">Сформировать и скопировать команду</button>
+      <div class="form-error" id="sshError" role="alert"></div>
+    </div>
     <div class="code-box">
-      <div class="code-label">Подключение по SSH</div>
-      <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>ssh ivan@192.168.1.120</code></pre>
+      <div class="code-label">Готовая команда подключения</div>
+      <pre><code id="sshCommand">ssh ivan@192.168.1.120</code></pre>
     </div>
     <p>Введите пароль пользователя NAS. После подключения получите права администратора:</p>
     <div class="code-box">
@@ -458,11 +541,35 @@ drwxr-xr-x 2 root root 4096 Aug 18 12:10 identity</code></pre>
 
   <section class="card" id="step-7">
     <h2>📌 ШАГ 7. Создать Docker Compose</h2>
-    <p>Создайте файл <code>/volume1/docker/triangles/docker-compose.yml</code> и вставьте шаблон ниже. Замените e-mail, кошелёк, внешний IP и объём хранилища на свои значения.</p>
+    <p>Сначала подготовьте адрес кошелька, e-mail, фиксированный внешний IP и объём, который хотите выделить ноде. Заполните поля ниже — страница сама создаст готовую команду.</p>
+    <div class="configurator">
+      <h3>Введите данные своей ноды</h3>
+      <div class="form-grid">
+        <label class="field">E-mail
+          <input id="nodeEmail" type="email" placeholder="node@example.com" autocomplete="email">
+          <span>Действующий адрес оператора ноды</span>
+        </label>
+        <label class="field">Адрес кошелька
+          <input id="nodeWallet" type="text" placeholder="0x..." autocomplete="off">
+          <span>Вставьте полный адрес без пробелов</span>
+        </label>
+        <label class="field">Фиксированный внешний IPv4
+          <input id="externalIp" type="text" placeholder="203.0.113.25" inputmode="decimal">
+          <span>Адрес, проверенный на шаге 3</span>
+        </label>
+        <label class="field">Объём для ноды, GB
+          <input id="storageGb" type="number" placeholder="16000" min="1" step="1">
+          <span>Введите только число, например 16000</span>
+        </label>
+      </div>
+      <button class="generate-btn" id="copyComposeCommand" type="button">Сформировать и скопировать команду</button>
+      <div class="form-error" id="composeError" role="alert"></div>
+    </div>
+    <p>После нажатия кнопки вставьте скопированную команду в SSH-терминал и нажмите Enter. Она сама создаст <code>docker-compose.yml</code> с вашими данными и сразу проверит его.</p>
     <div class="code-box">
-      <div class="code-label">docker-compose.yml</div>
-      <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>services:
+      <div class="code-label">Команда, которая будет скопирована</div>
+      <pre><code id="composeCommand">cd /volume1/docker/triangles &amp;&amp; cat &gt; docker-compose.yml &lt;&lt;'TCLOUD_COMPOSE'
+services:
   node:
     image: registry.gitlab.com/softdds/tcloud:latest
     restart: unless-stopped
@@ -471,18 +578,14 @@ drwxr-xr-x 2 root root 4096 Aug 18 12:10 identity</code></pre>
       - "28967:28967/tcp"
       - "28967:28967/udp"
     environment:
-      WALLET: "0x1234567890abcdef1234567890abcdef1234ABCD"
-      EMAIL: "node@example.com"
-      ADDRESS: "203.0.113.25:28967"
-      STORAGE: "16000GB"
+      WALLET: "ВВЕДИТЕ_КОШЕЛЁК"
+      EMAIL: "ВВЕДИТЕ_EMAIL"
+      ADDRESS: "ВВЕДИТЕ_ВНЕШНИЙ_IP:28967"
+      STORAGE: "ВВЕДИТЕ_ОБЪЁМ_GB"
     volumes:
       - /volume1/docker/triangles/config:/app/config
-      - /volume1/docker/triangles/identity:/app/identity</code></pre>
-    </div>
-    <div class="code-box">
-      <div class="code-label">Проверка файла</div>
-      <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>cd /volume1/docker/triangles
+      - /volume1/docker/triangles/identity:/app/identity
+TCLOUD_COMPOSE
 docker compose config</code></pre>
     </div>
     <div class="code-box">
@@ -619,7 +722,7 @@ storagenode-updater   RUNNING   pid 126, uptime 0:03:24</code></pre>
     <div class="code-box">
       <div class="code-label">Адрес Dashboard</div>
       <button class="copy-btn" data-copy>Копировать</button>
-      <pre><code>http://192.168.1.120:14002</code></pre>
+      <pre><code id="dashboardUrl">http://192.168.1.120:14002</code></pre>
     </div>
     <p><code>http://localhost:14002</code> можно использовать только непосредственно на NAS или при специально настроенном SSH-туннеле. На обычном компьютере используйте внутренний IP NAS.</p>
     <div class="success">✅ Всё работает правильно, если контейнер имеет статус <code>Up</code>, оба внутренних процесса показывают <code>RUNNING</code>, опубликованы три порта и Dashboard открывается по внутреннему IP NAS.</div>
@@ -660,19 +763,141 @@ docker compose up -d</code></pre>
 </main>
 
 <script>
+async function copyPlainText(text, button) {
+  const original = button.innerText;
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (error) {
+    const area = document.createElement('textarea');
+    area.value = text;
+    area.style.position = 'fixed';
+    area.style.opacity = '0';
+    document.body.appendChild(area);
+    area.select();
+    document.execCommand('copy');
+    area.remove();
+  }
+  button.innerText = '✅ Скопировано';
+  setTimeout(() => { button.innerText = original; }, 1800);
+}
+
+function isIpv4(value) {
+  const parts = value.split('.');
+  return parts.length === 4 && parts.every((part) => /^\d{1,3}$/.test(part) && Number(part) >= 0 && Number(part) <= 255);
+}
+
+const nasUser = document.getElementById('nasUser');
+const nasIp = document.getElementById('nasIp');
+const sshCommand = document.getElementById('sshCommand');
+const sshError = document.getElementById('sshError');
+const dashboardUrl = document.getElementById('dashboardUrl');
+
+function updateSshCommand() {
+  const user = nasUser.value.trim() || 'ЛОГИН';
+  const ip = nasIp.value.trim() || 'IP_NAS';
+  sshCommand.innerText = `ssh ${user}@${ip}`;
+  dashboardUrl.innerText = `http://${ip}:14002`;
+}
+
+nasUser.addEventListener('input', updateSshCommand);
+nasIp.addEventListener('input', updateSshCommand);
+
+document.getElementById('copySshCommand').addEventListener('click', async (event) => {
+  const user = nasUser.value.trim();
+  const ip = nasIp.value.trim();
+  sshError.innerText = '';
+  if (!/^[a-zA-Z0-9._-]+$/.test(user)) {
+    sshError.innerText = 'Введите логин пользователя NAS без пробелов.';
+    return;
+  }
+  if (!isIpv4(ip)) {
+    sshError.innerText = 'Введите правильный локальный IPv4-адрес NAS.';
+    return;
+  }
+  updateSshCommand();
+  await copyPlainText(sshCommand.innerText, event.currentTarget);
+});
+
+const nodeEmail = document.getElementById('nodeEmail');
+const nodeWallet = document.getElementById('nodeWallet');
+const externalIp = document.getElementById('externalIp');
+const storageGb = document.getElementById('storageGb');
+const composeCommand = document.getElementById('composeCommand');
+const composeError = document.getElementById('composeError');
+
+function buildComposeCommand(usePlaceholders = true) {
+  const email = nodeEmail.value.trim() || (usePlaceholders ? 'ВВЕДИТЕ_EMAIL' : '');
+  const wallet = nodeWallet.value.trim() || (usePlaceholders ? 'ВВЕДИТЕ_КОШЕЛЁК' : '');
+  const ip = externalIp.value.trim() || (usePlaceholders ? 'ВВЕДИТЕ_ВНЕШНИЙ_IP' : '');
+  const storageInput = storageGb.value.trim();
+  const storage = storageInput ? `${storageInput}GB` : (usePlaceholders ? 'ВВЕДИТЕ_ОБЪЁМ_В_GB' : '');
+
+  return `cd /volume1/docker/triangles && cat > docker-compose.yml <<'TCLOUD_COMPOSE'
+services:
+  node:
+    image: registry.gitlab.com/softdds/tcloud:latest
+    restart: unless-stopped
+    ports:
+      - "14002:14002/tcp"
+      - "28967:28967/tcp"
+      - "28967:28967/udp"
+    environment:
+      WALLET: "${wallet}"
+      EMAIL: "${email}"
+      ADDRESS: "${ip}:28967"
+      STORAGE: "${storage}"
+    volumes:
+      - /volume1/docker/triangles/config:/app/config
+      - /volume1/docker/triangles/identity:/app/identity
+TCLOUD_COMPOSE
+docker compose config`;
+}
+
+function updateComposeCommand() {
+  composeCommand.innerText = buildComposeCommand(true);
+}
+
+[nodeEmail, nodeWallet, externalIp, storageGb].forEach((input) => {
+  input.addEventListener('input', updateComposeCommand);
+});
+
+document.getElementById('copyComposeCommand').addEventListener('click', async (event) => {
+  const email = nodeEmail.value.trim();
+  const wallet = nodeWallet.value.trim();
+  const ip = externalIp.value.trim();
+  const storage = Number(storageGb.value);
+  composeError.innerText = '';
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    composeError.innerText = 'Введите правильный e-mail.';
+    return;
+  }
+  if (!/^0x[a-fA-F0-9]{40}$/.test(wallet)) {
+    composeError.innerText = 'Введите полный адрес кошелька: 0x и 40 символов после него.';
+    return;
+  }
+  if (!isIpv4(ip)) {
+    composeError.innerText = 'Введите правильный фиксированный внешний IPv4.';
+    return;
+  }
+  if (!Number.isInteger(storage) || storage < 1) {
+    composeError.innerText = 'Введите объём хранилища целым числом в GB.';
+    return;
+  }
+
+  updateComposeCommand();
+  await copyPlainText(buildComposeCommand(false), event.currentTarget);
+});
+
 document.querySelectorAll('[data-copy]').forEach((button) => {
   button.addEventListener('click', async () => {
     const code = button.closest('.code-box').querySelector('code').innerText;
-    const original = button.innerText;
-    try {
-      await navigator.clipboard.writeText(code);
-      button.innerText = '✅';
-    } catch (error) {
-      button.innerText = 'Выделите';
-    }
-    setTimeout(() => { button.innerText = original; }, 1500);
+    await copyPlainText(code, button);
   });
 });
+
+updateSshCommand();
+updateComposeCommand();
 </script>
 </body>
 </html>
