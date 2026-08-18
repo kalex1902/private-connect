@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f2f2f7">
+<title>Установка ноды TCloud на NAS UGREEN</title>
+
+<style>
+:root {
+  --blue: #007aff;
+  --blue-dark: #0567d8;
+  --bg: #f2f2f7;
+  --card: #ffffff;
+  --text: #1c1c1e;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --code: #f5f6fa;
+  --warning: #fff4d6;
+  --success: #eaf8ee;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+.container {
+  width: min(100%, 820px);
+  margin: auto;
+  padding: 16px;
+}
+
+.card {
+  min-width: 0;
+  max-width: 100%;
+  background: var(--card);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+.hero {
+  padding: 34px 24px;
+  text-align: center;
+  background: linear-gradient(145deg, #ffffff 0%, #eef5ff 100%);
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--blue-dark);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+h1 {
+  max-width: 650px;
+  margin: 0 auto 12px;
+  font-size: clamp(28px, 6vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -.03em;
+}
+
+h2 {
+  margin: 0 0 14px;
+  font-size: clamp(20px, 4vw, 26px);
+  line-height: 1.2;
+}
+
+h3 {
+  margin: 20px 0 8px;
+  font-size: 17px;
+}
+
+p { margin: 8px 0; }
+
+.subtitle {
+  max-width: 590px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 17px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.chip {
+  padding: 7px 11px;
+  border: 1px solid #d9e6ff;
+  border-radius: 999px;
+  background: rgba(255,255,255,.75);
+  color: #315d9d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.warning,
+.success,
+.example {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+
+.warning { background: var(--warning); }
+.success { background: var(--success); }
+.example {
+  border: 1px solid #dbe7fb;
+  background: #f5f9ff;
+}
+
+.example-title {
+  display: block;
+  margin-bottom: 6px;
+  color: #315d9d;
+  font-weight: 800;
+}
+
+.toc {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.toc a {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  color: var(--text);
+  background: #fafbfc;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.toc a:active { transform: scale(.98); }
+
+.sequence {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.sequence li { margin: 6px 0; }
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.value {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fafbfc;
+}
+
+.value span {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.value code {
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+
+.step-list {
+  margin: 10px 0 0;
+  padding-left: 22px;
+}
+
+.step-list li { margin: 7px 0; }
+
+.code-box {
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+  margin: 12px 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--code);
+}
+
+.code-label {
+  padding: 8px 80px 8px 12px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+pre {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 14px;
+  overflow-x: auto;
+  color: #172033;
+  font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  white-space: pre;
+}
+
+pre code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  border: 0;
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: #fff;
+  background: var(--blue);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.copy-btn:active {
+  transform: scale(.95);
+  opacity: .75;
+}
+
+.placeholder {
+  margin-top: 14px;
+  padding: 20px;
+  border: 2px dashed #d9dee8;
+  border-radius: 14px;
+  color: var(--muted);
+  background: #fafbfc;
+  text-align: center;
+  font-size: 13px;
+}
+
+.back-top {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--blue-dark);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+footer {
+  padding: 8px 8px 24px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 12px;
+}
+
+@media (max-width: 560px) {
+  .container { padding: 12px; }
+  .card { padding: 18px; border-radius: 18px; }
+  .hero { padding: 28px 18px; }
+  .toc, .values { grid-template-columns: 1fr; }
+  pre { font-size: 12px; }
+}
+
+@media print {
+  body { background: #fff; }
+  .container { width: 100%; max-width: none; }
+  .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+  .copy-btn, .back-top { display: none; }
+}
+</style>
+</head>
+
+<body>
+<main class="container" id="top">
+
+  <section class="card hero">
+    <span class="eyebrow">Универсальная инструкция</span>
+    <h1>Установка ноды TCloud на NAS UGREEN</h1>
+    <p class="subtitle">UGOS Pro · Docker Compose · Identity · Setup · проверка запуска</p>
+    <div class="chips">
+      <span class="chip">Для новой установки</span>
+      <span class="chip">Адаптировано для телефона</span>
+      <span class="chip">С примерами команд</span>
+    </div>
+    <div class="warning">❗ Выполняйте шаги по порядку. Значения в примерах нужно заменить на свои.</div>
+  </section>
+
+  <section class="card">
+    <h2>⚡ Краткая последовательность</h2>
+    <ol class="sequence">
+      <li>Создать Storage Pool и Volume на диске для ноды.</li>
+      <li>Закрепить постоянный локальный IP за NAS.</li>
+      <li>Убедиться, что есть внешний статический IPv4.</li>
+      <li>Пробросить порты 14002 и 28967 на NAS.</li>
+      <li>Включить SSH в UGOS Pro и подключиться к NAS.</li>
+      <li>Создать каталоги TCloud.</li>
+      <li>Создать <code>docker-compose.yml</code>.</li>
+      <li>Создать и авторизовать Identity.</li>
+      <li>Выполнить первичную настройку Setup.</li>
+      <li>Запустить контейнер.</li>
+      <li>Проверить контейнер, процессы, порты и Dashboard.</li>
+    </ol>
+  </section>
+
+  <section class="card">
+    <h2>🧭 Навигация</h2>
+    <div class="toc">
+      <a href="#step-1">1. Диск и Volume</a>
+      <a href="#step-2">2. Локальный IP</a>
+      <a href="#step-3">3. Внешний IPv4</a>
+      <a href="#step-4">4. Порты</a>
+      <a href="#step-5">5. SSH</a>
+      <a href="#step-6">6. Каталоги</a>
+      <a href="#step-7">7. Docker Compose</a>
+      <a href="#step-8">8. Identity</a>
+      <a href="#step-9">9. Setup</a>
+      <a href="#step-10">10. Запуск</a>
+      <a href="#step-11">11. Проверка</a>
+      <a href="#troubleshooting">Если что-то не работает</a>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>🏷️ Шаблонные обозначения</h2>
+    <p>В инструкции используются примеры. Перед выполнением команд подставьте свои данные.</p>
+    <div class="values">
+      <div class="value"><span>Пользователь NAS</span><code>ivan</code></div>
+      <div class="value"><span>Локальный IP NAS</span><code>192.168.1.120</code></div>
+      <div class="value"><span>Внешний IPv4</span><code>203.0.113.25</code></div>
+      <div class="value"><span>E-mail оператора</span><code>node@example.com</code></div>
+      <div class="value"><span>Кошелёк</span><code>0x1234...ABCD</code></div>
+      <div class="value"><span>Выделенное место</span><code>16000GB</code></div>
+      <div class="value"><span>Папка ноды</span><code>/volume1/docker/triangles</code></div>
+      <div class="value"><span>Docker image</span><code>registry.gitlab.com/softdds/tcloud:latest</code></div>
+    </div>
+    <div class="warning">Адрес <code>203.0.113.25</code> приведён только как пример. Не копируйте его в свою настройку.</div>
+  </section>
+
+  <section class="card" id="step-1">
+    <h2>📌 ШАГ 1. Подготовить диск</h2>
+    <ol class="step-list">
+      <li>Откройте в UGOS Pro раздел управления хранилищем.</li>
+      <li>Создайте на нужном диске отдельный Storage Pool.</li>
+      <li>Создайте Volume и дождитесь состояния <b>Normal</b>.</li>
+      <li>Не выделяйте под ноду весь объём: оставьте запас для системы и служебных файлов.</li>
+    </ol>
+    <div class="example"><span class="example-title">Пример результата</span>Диск 18 TB → Storage Pool 1 → режим Basic → Volume 1 → состояние Normal → для ноды выделено 16000GB.</div>
+    <div class="placeholder">📷 Здесь позже можно добавить скриншот Storage Pool и Volume</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="step-2">
+    <h2>📌 ШАГ 2. Закрепить локальный IP</h2>
+    <ol class="step-list">
+      <li>Откройте список клиентов DHCP на роутере.</li>
+      <li>Найдите UGREEN NAS по имени или MAC-адресу.</li>
+      <li>Создайте привязку, чтобы NAS всегда получал один и тот же адрес.</li>
+      <li>После сохранения проверьте, что веб-интерфейс NAS открывается по этому IP.</li>
+    </ol>
+    <div class="example"><span class="example-title">Пример результата</span>UGREEN NAS → MAC <code>84:47:09:12:34:56</code> → постоянный IP <code>192.168.1.120</code>.</div>
+    <div class="placeholder">📷 Здесь позже можно добавить скриншот привязки DHCP</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="step-3">
+    <h2>📌 ШАГ 3. Проверить внешний IPv4</h2>
+    <p>Для входящих соединений ноде нужен доступный извне IPv4. Сравните адрес в статусе WAN роутера с адресом, который показывает сервис проверки IP.</p>
+    <ol class="step-list">
+      <li>Если адреса совпадают — переходите к пробросу портов.</li>
+      <li>Если WAN-адрес находится в диапазоне <code>100.64.0.0/10</code>, <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code> или <code>192.168.0.0/16</code>, запросите у провайдера публичный статический IPv4.</li>
+    </ol>
+    <div class="example"><span class="example-title">Пример результата</span>WAN IPv4 на роутере: <code>203.0.113.25</code>. Этот же адрес виден снаружи.</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="step-4">
+    <h2>📌 ШАГ 4. Пробросить порты</h2>
+    <p>Создайте на роутере правила перенаправления на локальный IP NAS.</p>
+    <div class="values">
+      <div class="value"><span>Dashboard</span><code>14002 / TCP → 192.168.1.120:14002</code></div>
+      <div class="value"><span>Трафик ноды</span><code>28967 / TCP+UDP → 192.168.1.120:28967</code></div>
+    </div>
+    <div class="warning">Не открывайте SSH-порт 22 в интернет. Он нужен только внутри вашей локальной сети или через защищённый VPN.</div>
+    <div class="example"><span class="example-title">Пример результата</span>Правило 1: TCP 14002 → <code>192.168.1.120</code>. Правило 2: TCP/UDP 28967 → <code>192.168.1.120</code>.</div>
+    <div class="placeholder">📷 Здесь позже можно добавить скриншот Port Forwarding</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="step-5">
+    <h2>📌 ШАГ 5. Включить SSH</h2>
+    <ol class="step-list">
+      <li>В UGOS Pro откройте <b>Панель управления → Терминал</b>.</li>
+      <li>Включите SSH и оставьте порт 22 доступным только в локальной сети.</li>
+      <li>На компьютере откройте Терминал и подключитесь к NAS.</li>
+    </ol>
+    <div class="code-box">
+      <div class="code-label">Подключение по SSH</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>ssh ivan@192.168.1.120</code></pre>
+    </div>
+    <div class="example"><span class="example-title">Пример результата</span>После ввода пароля появляется приглашение командной строки вида <code>ivan@UGREEN-NAS:~$</code>.</div>
+    <div class="placeholder">📷 Здесь позже можно добавить скриншот включения SSH</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="step-6">
+    <h2>📌 ШАГ 6. Создать каталоги</h2>
+    <p>Создайте рабочую папку, а внутри неё — каталоги для конфигурации и Identity.</p>
+    <div class="code-box">
+      <div class="code-label">Создание каталогов</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>sudo mkdir -p /volume1/docker/triangles/config
+sudo mkdir -p /volume1/docker/triangles/identity
+cd /volume1/docker/triangles
+pwd
+ls -la</code></pre>
+    </div>
+    <div class="example"><span class="example-title">Пример результата</span><code>pwd</code> выводит <code>/volume1/docker/triangles</code>, а <code>ls -la</code> показывает папки <code>config</code> и <code>identity</code>.</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="step-7">
+    <h2>📌 ШАГ 7. Создать Docker Compose</h2>
+    <p>Создайте файл <code>/volume1/docker/triangles/docker-compose.yml</code> и вставьте шаблон ниже. Замените e-mail, кошелёк, внешний IP и объём хранилища на свои значения.</p>
+    <div class="code-box">
+      <div class="code-label">docker-compose.yml</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>services:
+  node:
+    image: registry.gitlab.com/softdds/tcloud:latest
+    restart: unless-stopped
+    ports:
+      - "14002:14002/tcp"
+      - "28967:28967/tcp"
+      - "28967:28967/udp"
+    environment:
+      WALLET: "0x1234567890abcdef1234567890abcdef1234ABCD"
+      EMAIL: "node@example.com"
+      ADDRESS: "203.0.113.25:28967"
+      STORAGE: "16000GB"
+    volumes:
+      - /volume1/docker/triangles/config:/app/config
+      - /volume1/docker/triangles/identity:/app/identity</code></pre>
+    </div>
+    <div class="code-box">
+      <div class="code-label">Проверка файла</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>cd /volume1/docker/triangles
+docker compose config</code></pre>
+    </div>
+    <div class="example"><span class="example-title">Пример результата</span>Команда завершается без ошибок. В итоговом конфиге видны image <code>registry.gitlab.com/softdds/tcloud:latest</code>, три порта и две подключённые папки.</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="step-8">
+    <h2>📌 ШАГ 8. Создать Identity</h2>
+    <p>Identity — уникальные ключи ноды. Их нельзя терять или использовать одновременно на двух устройствах.</p>
+    <div class="code-box">
+      <div class="code-label">Создание Identity</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>docker run --rm -it \
+  --mount type=bind,source=/volume1/docker/triangles/identity,destination=/app/identity \
+  registry.gitlab.com/softdds/tcloud:latest \
+  identity create storagenode</code></pre>
+    </div>
+    <p>Затем авторизуйте Identity токеном, полученным для новой ноды:</p>
+    <div class="code-box">
+      <div class="code-label">Авторизация Identity</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>docker run --rm -it \
+  --mount type=bind,source=/volume1/docker/triangles/identity,destination=/app/identity \
+  registry.gitlab.com/softdds/tcloud:latest \
+  identity authorize storagenode ВАШ_ТОКЕН_АВТОРИЗАЦИИ</code></pre>
+    </div>
+    <div class="code-box">
+      <div class="code-label">Проверка файлов Identity</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>ls -la /volume1/docker/triangles/identity/storagenode</code></pre>
+    </div>
+    <div class="example"><span class="example-title">Пример результата</span>В папке <code>identity/storagenode</code> находятся файлы сертификатов и ключей. Ошибок авторизации нет.</div>
+    <div class="warning">Сделайте резервную копию папки <code>identity</code> и храните её отдельно от NAS.</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="step-9">
+    <h2>📌 ШАГ 9. Выполнить Setup</h2>
+    <p>Команда создаст начальную конфигурацию в папке <code>config</code>.</p>
+    <div class="code-box">
+      <div class="code-label">Первичная настройка</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>docker run --rm -e SETUP="true" \
+  --mount type=bind,source=/volume1/docker/triangles/identity,destination=/app/identity \
+  --mount type=bind,source=/volume1/docker/triangles/config,destination=/app/config \
+  registry.gitlab.com/softdds/tcloud:latest</code></pre>
+    </div>
+    <div class="code-box">
+      <div class="code-label">Проверка конфигурации</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>ls -la /volume1/docker/triangles/config
+grep -nE 'operator.email|operator.wallet:|contact.external-address|server.address' \
+  /volume1/docker/triangles/config/config.yaml</code></pre>
+    </div>
+    <div class="example"><span class="example-title">Пример результата</span>Появился файл <code>config.yaml</code>. В нём указаны e-mail, кошелёк и внешний адрес <code>203.0.113.25:28967</code>.</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="step-10">
+    <h2>📌 ШАГ 10. Запустить ноду</h2>
+    <div class="code-box">
+      <div class="code-label">Загрузка image и запуск</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>cd /volume1/docker/triangles
+docker compose pull
+docker compose up -d</code></pre>
+    </div>
+    <div class="code-box">
+      <div class="code-label">Список контейнеров</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>docker ps</code></pre>
+    </div>
+    <div class="example"><span class="example-title">Пример результата</span>Контейнер <code>triangles-node-1</code> имеет статус <code>Up</code>, а в колонке IMAGE указано <code>registry.gitlab.com/softdds/tcloud:latest</code>.</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="step-11">
+    <h2>📌 ШАГ 11. Проверить работу</h2>
+    <div class="code-box">
+      <div class="code-label">Свежие логи</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>cd /volume1/docker/triangles
+docker compose logs --tail 100</code></pre>
+    </div>
+    <div class="code-box">
+      <div class="code-label">Внутренние процессы</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>docker exec triangles-node-1 supervisorctl status</code></pre>
+    </div>
+    <div class="code-box">
+      <div class="code-label">Проверка опубликованных портов</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>docker port triangles-node-1</code></pre>
+    </div>
+    <p>Откройте Dashboard в локальной сети:</p>
+    <div class="code-box">
+      <div class="code-label">Адрес Dashboard</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>http://192.168.1.120:14002</code></pre>
+    </div>
+    <div class="example"><span class="example-title">Пример результата</span><code>storagenode</code> и <code>storagenode-updater</code> имеют состояние <code>RUNNING</code>. Dashboard открывается, а порт 28967 доступен извне.</div>
+    <div class="success">✅ Если контейнер работает, процессы имеют статус RUNNING, Dashboard открывается и входящий порт доступен — установка завершена.</div>
+    <div class="placeholder">📷 Здесь позже можно добавить скриншоты docker ps и Dashboard</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="troubleshooting">
+    <h2>🛠️ Если что-то не работает</h2>
+    <h3>Контейнер не запускается</h3>
+    <div class="code-box">
+      <div class="code-label">Диагностика</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>cd /volume1/docker/triangles
+docker compose config
+docker ps -a
+docker compose logs --tail 200</code></pre>
+    </div>
+    <h3>Ошибка про wallet или e-mail</h3>
+    <p>Проверьте, что в compose и <code>config.yaml</code> записаны настоящие значения, а не пустые строки.</p>
+    <h3>Dashboard работает, но нода offline</h3>
+    <p>Сверьте внешний IPv4, значение <code>ADDRESS</code>, проброс 28967 TCP/UDP и правила брандмауэра. Внешний адрес должен быть актуальным.</p>
+    <h3>После изменения compose</h3>
+    <div class="code-box">
+      <div class="code-label">Безопасное пересоздание контейнера</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>cd /volume1/docker/triangles
+docker compose down
+docker compose pull
+docker compose up -d</code></pre>
+    </div>
+    <div class="warning">Не удаляйте папки <code>config</code> и <code>identity</code>. В них находятся данные и уникальная Identity ноды.</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <footer>Инструкция для UGREEN NAS · TCloud · Docker image: registry.gitlab.com/softdds/tcloud:latest</footer>
+</main>
+
+<script>
+document.querySelectorAll('[data-copy]').forEach((button) => {
+  button.addEventListener('click', async () => {
+    const code = button.closest('.code-box').querySelector('code').innerText;
+    const original = button.innerText;
+    try {
+      await navigator.clipboard.writeText(code);
+      button.innerText = '✅';
+    } catch (error) {
+      button.innerText = 'Выделите';
+    }
+    setTimeout(() => { button.innerText = original; }, 1500);
+  });
+});
+</script>
+</body>
+</html>
