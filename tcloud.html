@@ -725,8 +725,12 @@ echo '=== ПОРТЫ ===' &amp;&amp; \
 docker port triangles-node-1 &amp;&amp; \
 echo '=== ПОСЛЕДНИЕ ЛОГИ ===' &amp;&amp; \
 docker compose logs --tail 20 &amp;&amp; \
-echo '=== DASHBOARD ===' &amp;&amp; \
-echo 'http://192.168.1.120:14002'</code></pre>
+echo '=== DASHBOARD: ЛОКАЛЬНАЯ СЕТЬ ===' &amp;&amp; \
+echo 'http://192.168.1.120:14002' &amp;&amp; \
+echo '=== DASHBOARD: ИЗВНЕ ===' &amp;&amp; \
+echo 'http://203.0.113.25:14002' &amp;&amp; \
+echo '=== DASHBOARD: LOCALHOST ===' &amp;&amp; \
+echo 'http://localhost:14002'</code></pre>
     </div>
     <div class="code-box">
       <div class="code-label">Что должно показываться</div>
@@ -743,11 +747,33 @@ storagenode-updater   RUNNING   pid 126, uptime 0:05:00
 28967/udp -> 0.0.0.0:28967
 
 === ПОСЛЕДНИЕ ЛОГИ ===
-Информационные сообщения без повторяющихся FATAL и Invalid configuration
-
-=== DASHBOARD ===
-http://192.168.1.120:14002</code></pre>
+Информационные сообщения без повторяющихся FATAL и Invalid configuration</code></pre>
     </div>
+    <h3>Открыть Dashboard</h3>
+    <p>Адреса ниже формируются автоматически из локального IP, введённого на шаге 5, и внешнего IP, введённого на шаге 7.</p>
+    <div class="code-box">
+      <div class="code-label">Вариант 1 — из локальной сети</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code id="dashboardLocalUrl">http://192.168.1.120:14002</code></pre>
+    </div>
+    <a class="action-link" id="openDashboardLocal" href="http://192.168.1.120:14002" target="_blank" rel="noopener noreferrer">Открыть Dashboard по локальному IP</a>
+    <div class="example"><span class="example-title">Когда использовать</span>Компьютер подключён к той же домашней или офисной сети, что и UGREEN NAS.</div>
+
+    <div class="code-box">
+      <div class="code-label">Вариант 2 — через интернет</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code id="dashboardExternalUrl">http://203.0.113.25:14002</code></pre>
+    </div>
+    <a class="action-link" id="openDashboardExternal" href="http://203.0.113.25:14002" target="_blank" rel="noopener noreferrer">Открыть Dashboard по внешнему IP</a>
+    <div class="example"><span class="example-title">Когда использовать</span>Вы подключаетесь извне, а TCP-порт <code>14002</code> проброшен на NAS в роутере.</div>
+
+    <div class="code-box">
+      <div class="code-label">Вариант 3 — localhost</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code id="dashboardLocalhostUrl">http://localhost:14002</code></pre>
+    </div>
+    <a class="action-link" id="openDashboardLocalhost" href="http://localhost:14002" target="_blank" rel="noopener noreferrer">Открыть Dashboard через localhost</a>
+    <div class="warning"><code>localhost</code> работает только в браузере, запущенном непосредственно на NAS, либо через заранее настроенный SSH-туннель. На обычном компьютере используйте локальный или внешний IP.</div>
     <div class="success">✅ Всё работает правильно, если контейнер имеет статус <code>Up</code>, оба процесса показывают <code>RUNNING</code>, опубликованы три порта, а в логах нет повторяющихся критических ошибок.</div>
     <div class="placeholder">📷 Здесь позже можно добавить скриншоты docker ps и Dashboard</div>
     <a class="back-top" href="#top">↑ В начало</a>
@@ -857,8 +883,14 @@ const nasIp = document.getElementById('nasIp');
 const sshCommand = document.getElementById('sshCommand');
 const sshError = document.getElementById('sshError');
 const fullCheckCommand = document.getElementById('fullCheckCommand');
+const dashboardLocalUrl = document.getElementById('dashboardLocalUrl');
+const dashboardExternalUrl = document.getElementById('dashboardExternalUrl');
+const dashboardLocalhostUrl = document.getElementById('dashboardLocalhostUrl');
+const openDashboardLocal = document.getElementById('openDashboardLocal');
+const openDashboardExternal = document.getElementById('openDashboardExternal');
+const openDashboardLocalhost = document.getElementById('openDashboardLocalhost');
 
-function buildFullCheckCommand(ip) {
+function buildFullCheckCommand(localIp, publicIp) {
   return `cd /volume1/docker/triangles && \\
 echo '=== КОНТЕЙНЕР ===' && \\
 docker ps --filter name=triangles-node-1 --format 'STATUS: {{.Status}} | IMAGE: {{.Image}} | NAME: {{.Names}}' && \\
@@ -868,15 +900,49 @@ echo '=== ПОРТЫ ===' && \\
 docker port triangles-node-1 && \\
 echo '=== ПОСЛЕДНИЕ ЛОГИ ===' && \\
 docker compose logs --tail 20 && \\
-echo '=== DASHBOARD ===' && \\
-echo 'http://${ip}:14002'`;
+echo '=== DASHBOARD: ЛОКАЛЬНАЯ СЕТЬ ===' && \\
+echo 'http://${localIp}:14002' && \\
+echo '=== DASHBOARD: ИЗВНЕ ===' && \\
+echo 'http://${publicIp}:14002' && \\
+echo '=== DASHBOARD: LOCALHOST ===' && \\
+echo 'http://localhost:14002'`;
+}
+
+function saveIpValues() {
+  try {
+    localStorage.setItem('tcloudNasIp', nasIp.value.trim());
+    localStorage.setItem('tcloudExternalIp', externalIp.value.trim());
+  } catch (error) {
+    // Страница продолжит работать, даже если браузер запретил локальное сохранение.
+  }
+}
+
+function updateDashboardAddresses() {
+  const localInput = nasIp.value.trim();
+  const publicInput = externalIp.value.trim();
+  const localValid = isIpv4(localInput);
+  const publicValid = isIpv4(publicInput);
+  const localIp = localValid ? localInput : 'IP_NAS';
+  const publicIp = publicValid ? publicInput : 'ВНЕШНИЙ_IP';
+  const localUrl = `http://${localIp}:14002`;
+  const externalUrl = `http://${publicIp}:14002`;
+  const localhostUrl = 'http://localhost:14002';
+
+  dashboardLocalUrl.innerText = localUrl;
+  dashboardExternalUrl.innerText = externalUrl;
+  dashboardLocalhostUrl.innerText = localhostUrl;
+  openDashboardLocal.href = localValid ? localUrl : '#step-5';
+  openDashboardExternal.href = publicValid ? externalUrl : '#step-7';
+  openDashboardLocalhost.href = localhostUrl;
+  fullCheckCommand.innerText = buildFullCheckCommand(localIp, publicIp);
 }
 
 function updateSshCommand() {
   const user = nasUser.value.trim() || 'ЛОГИН';
   const ip = nasIp.value.trim() || 'IP_NAS';
   sshCommand.innerText = `ssh ${user}@${ip}`;
-  fullCheckCommand.innerText = buildFullCheckCommand(ip);
+  saveIpValues();
+  updateDashboardAddresses();
 }
 
 nasUser.addEventListener('input', updateSshCommand);
@@ -935,6 +1001,8 @@ docker compose config`;
 
 function updateComposeCommand() {
   composeCommand.innerText = buildComposeCommand(true);
+  saveIpValues();
+  updateDashboardAddresses();
 }
 
 [nodeEmail, nodeWallet, externalIp, storageGb].forEach((input) => {
@@ -975,6 +1043,15 @@ document.querySelectorAll('[data-copy]').forEach((button) => {
     await copyPlainText(code, button);
   });
 });
+
+try {
+  const savedNasIp = localStorage.getItem('tcloudNasIp');
+  const savedExternalIp = localStorage.getItem('tcloudExternalIp');
+  if (savedNasIp) nasIp.value = savedNasIp;
+  if (savedExternalIp) externalIp.value = savedExternalIp;
+} catch (error) {
+  // Если сохранение недоступно, используются значения из полей страницы.
+}
 
 updateSshCommand();
 updateComposeCommand();
