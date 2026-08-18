@@ -413,6 +413,7 @@ footer {
       <li><a href="#step-10">Запустить контейнер.</a></li>
       <li><a href="#step-11">Проверить контейнер, процессы, порты и Dashboard.</a></li>
     </ol>
+    <p><a class="action-link" href="#diagnostics">Дополнительно: диагностика ноды T-Cloud</a></p>
   </section>
 
   <section class="card" id="step-1">
@@ -749,6 +750,73 @@ http://192.168.1.120:14002</code></pre>
     </div>
     <div class="success">✅ Всё работает правильно, если контейнер имеет статус <code>Up</code>, оба процесса показывают <code>RUNNING</code>, опубликованы три порта, а в логах нет повторяющихся критических ошибок.</div>
     <div class="placeholder">📷 Здесь позже можно добавить скриншоты docker ps и Dashboard</div>
+    <a class="back-top" href="#top">↑ В начало</a>
+  </section>
+
+  <section class="card" id="diagnostics">
+    <h2>🩺 Диагностика ноды T-Cloud</h2>
+    <p>Используйте этот раздел, если нода стала недоступна, снизился показатель Online, появились обрывы или вышестоящий спонсор попросил собрать данные для проверки.</p>
+
+    <h3>1. Собрать основные данные одной командой</h3>
+    <p>Скопируйте команду, вставьте её в SSH-терминал и нажмите Enter. Она ничего не изменяет и не удаляет — только показывает состояние NAS и контейнера.</p>
+    <div class="code-box">
+      <div class="code-label">Команда диагностики</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>cd /volume1/docker/triangles &amp;&amp; \
+echo '=== ВРЕМЯ РАБОТЫ NAS ===' &amp;&amp; \
+uptime &amp;&amp; \
+echo '=== КОНТЕЙНЕР ===' &amp;&amp; \
+docker inspect --format 'Статус: {{.State.Status}} | Перезапусков: {{.RestartCount}} | Запущен: {{.State.StartedAt}}' triangles-node-1 &amp;&amp; \
+echo '=== ПРОЦЕССЫ ===' &amp;&amp; \
+docker exec triangles-node-1 supervisorctl status &amp;&amp; \
+echo '=== ПОРТЫ ===' &amp;&amp; \
+docker port triangles-node-1 &amp;&amp; \
+echo '=== ЛОГИ ЗА ПОСЛЕДНИЕ 24 ЧАСА ===' &amp;&amp; \
+docker logs --since 24h --tail 200 triangles-node-1</code></pre>
+    </div>
+    <div class="code-box">
+      <div class="code-label">Что должно показываться</div>
+      <pre><code>Время работы NAS: без неожиданных перезагрузок
+Статус контейнера: running
+Перезапусков: 0 или нет постоянного увеличения
+storagenode: RUNNING
+storagenode-updater: RUNNING
+14002/tcp: опубликован
+28967/tcp: опубликован
+28967/udp: опубликован
+Логи: без постоянно повторяющихся FATAL и критических ошибок</code></pre>
+    </div>
+
+    <h3>2. Проверить внешний IP и CGNAT</h3>
+    <ol class="step-list">
+      <li>Откройте 2IP и запишите показанный внешний IPv4.</li>
+      <li>Откройте панель роутера и найдите адрес <b>WAN IP</b> или <b>Internet IP</b>.</li>
+      <li>Сравните два адреса. Они должны совпадать, если используется прямой внешний IPv4.</li>
+    </ol>
+    <a class="action-link" href="https://2ip.ru" target="_blank" rel="noopener noreferrer">Проверить внешний IP на 2IP.ru</a>
+    <div class="warning">Если адреса не совпадают или WAN-адрес роутера начинается с <code>100.64–100.127</code>, <code>10.</code>, <code>172.16–172.31</code> либо <code>192.168.</code>, возможны CGNAT, двойной NAT или неправильная настройка VPS.</div>
+
+    <h3>3. Проверить порт 28967 снаружи</h3>
+    <p>Введите свой фиксированный внешний IP и порт <code>28967</code> в сервис проверки открытых портов. Проверка должна выполняться, пока нода запущена.</p>
+    <a class="action-link" href="https://www.yougetsignal.com/tools/open-ports/" target="_blank" rel="noopener noreferrer">Проверить TCP-порт 28967</a>
+    <div class="example"><span class="example-title">Правильный результат</span>Сервис сообщает, что TCP-порт <code>28967</code> открыт. UDP этим способом достоверно не проверяется; при сомнениях передайте результаты вышестоящему спонсору.</div>
+
+    <h3>4. Проверить стабильность интернета</h3>
+    <div class="code-box">
+      <div class="code-label">Проверка соединения</div>
+      <button class="copy-btn" data-copy>Копировать</button>
+      <pre><code>ping -c 20 1.1.1.1</code></pre>
+    </div>
+    <div class="example"><span class="example-title">Правильный результат</span><code>0% packet loss</code>. Регулярные потери пакетов или большие скачки времени ответа могут вызывать снижение Online.</div>
+
+    <h3>5. Проверить NAS</h3>
+    <ol class="step-list">
+      <li>В UGOS Pro убедитесь, что NAS и диски не уходят в сон или гибернацию во время работы ноды.</li>
+      <li>В настройках даты и времени включите автоматическую синхронизацию.</li>
+      <li>В разделе хранилища откройте состояние диска и SMART. Состояние должно быть нормальным, без предупреждений и ошибок.</li>
+      <li>Убедитесь, что на роутере или NAS не включены VPN либо прокси, через которые случайно проходит трафик ноды.</li>
+    </ol>
+    <div class="success">✅ Сохраните или сфотографируйте результат основной команды, внешний IP, WAN IP, проверку порта и состояние диска. Эти данные помогут вышестоящему спонсору быстрее найти причину.</div>
     <a class="back-top" href="#top">↑ В начало</a>
   </section>
 
